@@ -3,7 +3,7 @@ import React from "react";
 const Clubs = () => {
   return (
     <div>
-      <p>This is clubs route</p>
+      <p>This is a clubs Route</p>
     </div>
   );
 };
