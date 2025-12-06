@@ -1,13 +1,17 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../Contexts/AuthContext";
 import Swal from "sweetalert2";
+import { Navigate, useLocation, useNavigate } from "react-router";
 
 const SocialLogin = () => {
   const { googleSignInFunc, user } = useContext(AuthContext);
-
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from || "/";
   const handleGooleSignIn = () => {
     googleSignInFunc()
       .then((res) => {
+        navigate(from, { replace: true });
         Swal.fire({
           title: `Welcome, ${user?.displayName}!`,
           text: "You are logged in with Google",

@@ -1,9 +1,12 @@
 import React from "react";
 import logo from "../Images/Club Sphere.png";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import SocialLogin from "./SocialLogin";
 
 const Login = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from || "/";
   return (
     <div className="min-h-screen my-8 flex items-center justify-center bg-white px-10">
       <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
@@ -54,7 +57,7 @@ const Login = () => {
                     Register
                   </Link>
                 </p>
-                <SocialLogin></SocialLogin>
+                <SocialLogin from={from} navigate={navigate}></SocialLogin>
               </fieldset>
             </div>
           </div>

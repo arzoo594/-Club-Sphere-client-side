@@ -6,6 +6,8 @@ import Register from "../Pages/Register";
 import Clubs from "../Pages/Clubs";
 import Events from "../Pages/Events";
 import AuthLayout from "../Layouts/AuthLayout";
+import BeAManager from "../Pages/BeAManager";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -24,6 +26,14 @@ export const router = createBrowserRouter([
       {
         path: "/events",
         element: <Events></Events>,
+      },
+      {
+        path: "/be-a-manager",
+        element: (
+          <PrivateRoute>
+            <BeAManager></BeAManager>
+          </PrivateRoute>
+        ),
       },
     ],
   },

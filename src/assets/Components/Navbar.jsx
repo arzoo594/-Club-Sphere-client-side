@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import logo from "../Images/Club Sphere.png";
 import { Link, NavLink } from "react-router";
 import { AuthContext } from "../Contexts/AuthContext";
@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
+  const [showUserInfo, setShowUserInfo] = useState(false);
 
   const handleLogout = () => {
     logOut()
@@ -25,10 +26,10 @@ const Navbar = () => {
         });
       });
   };
+
   return (
-    <div className="bg-base-100 shadow-sm">
+    <div className="bg-base-100 shadow-sm relative">
       <div className="w-11/12 mx-auto navbar">
-        {/* Navbar Start */}
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -66,18 +67,24 @@ const Navbar = () => {
                   Events
                 </NavLink>
               </li>
+              <li>
+                <NavLink
+                  to="/be-a-manager"
+                  className="font-semibold text-secondary"
+                >
+                  Be a Club Manager
+                </NavLink>
+              </li>
             </ul>
           </div>
 
           <Link to="/">
-            <div className="flex  items-center gap-2">
-              <div className=" ">
-                <img
-                  className="w-11 h-11 border rounded-full object-cover hidden sm:block"
-                  src={logo}
-                  alt="Logo"
-                />
-              </div>
+            <div className="flex items-center gap-2">
+              <img
+                className="w-11 h-11 border rounded-full object-cover hidden sm:block"
+                src={logo}
+                alt="Logo"
+              />
               <p className="text-2xl text-secondary font-bold btn-ghost">
                 ClubSphere
               </p>
@@ -85,7 +92,6 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* Navbar Center */}
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             <li>
@@ -103,17 +109,43 @@ const Navbar = () => {
                 Events
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                to="/be-a-manager"
+                className="font-semibold text-secondary"
+              >
+                Be a Club Manager
+              </NavLink>
+            </li>
           </ul>
         </div>
 
-        <div className="navbar-end">
+        <div className="navbar-end relative">
           {user ? (
-            <button
-              onClick={handleLogout}
-              className="btn text-secondary border border-secondary font-bold"
-            >
-              Logout
-            </button>
+            <div className="relative">
+              <img
+                src={user.photoURL || logo}
+                alt="User"
+                className="w-10 h-10 rounded-full border cursor-pointer"
+                onClick={() => setShowUserInfo(!showUserInfo)}
+              />
+              {showUserInfo && (
+                <div className="absolute right-0 mt-2 w-56 bg-white shadow-lg border rounded p-4 z-20">
+                  <p className="font-semibold text-secondary">
+                    Name: {user.displayName}
+                  </p>
+                  <p className="font-semibold text-secondary">
+                    Email: {user.email}
+                  </p>
+                  <button
+                    onClick={handleLogout}
+                    className="btn btn-sm mt-2 w-full text-white bg-secondary border-none"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
           ) : (
             <Link
               to="/login"
