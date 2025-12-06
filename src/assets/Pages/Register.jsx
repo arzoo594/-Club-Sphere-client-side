@@ -52,8 +52,6 @@ const Register = () => {
                     <a className="link link-hover text-sm">Forgot password?</a>
                   </div>
 
-                  <SocialLogin />
-
                   <button className="btn text-2xl text-secondary font-extrabold bg-primary w-full mt-4">
                     Register
                   </button>
@@ -64,6 +62,7 @@ const Register = () => {
                       Login
                     </Link>
                   </p>
+                  <SocialLogin />
                 </fieldset>
               </div>
             </div>

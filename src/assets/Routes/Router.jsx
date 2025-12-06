@@ -3,6 +3,9 @@ import RootLayOut from "../Layouts/RootLayOut";
 import Home from "../Pages/Home";
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
+import Clubs from "../Pages/Clubs";
+import Events from "../Pages/Events";
+import AuthLayout from "../Layouts/AuthLayout";
 
 export const router = createBrowserRouter([
   {
@@ -13,12 +16,27 @@ export const router = createBrowserRouter([
         index: true,
         Component: Home,
       },
+
       {
-        path: "login",
+        path: "/clubs",
+        element: <Clubs></Clubs>,
+      },
+      {
+        path: "/events",
+        element: <Events></Events>,
+      },
+    ],
+  },
+  {
+    path: "/",
+    element: <AuthLayout></AuthLayout>,
+    children: [
+      {
+        path: "/login",
         Component: Login,
       },
       {
-        path: "register",
+        path: "/register",
         Component: Register,
       },
     ],

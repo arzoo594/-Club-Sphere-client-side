@@ -45,8 +45,6 @@ const Login = () => {
                   <a className="link link-hover text-sm">Forgot password?</a>
                 </div>
 
-                <SocialLogin></SocialLogin>
-
                 <button className="btn text-2xl text-secondary font-extrabold bg-primary w-full mt-4">
                   Login
                 </button>
@@ -56,6 +54,7 @@ const Login = () => {
                     Register
                   </Link>
                 </p>
+                <SocialLogin></SocialLogin>
               </fieldset>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import { FaFacebook, FaGithub, FaLinkedin } from "react-icons/fa";
+import logo from "../Images/Club Sphere.png";
 
 const Footer = () => {
   return (
@@ -8,8 +9,11 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-8">
           {/* About Section */}
           <div className="md:w-1/3">
-            <h2 className="text-2xl font-bold text-white mb-2">ClubSphere</h2>
-            <p className="text-gray-400 text-sm">
+            <div className="flex items-center gap-2">
+              <img className="w-11 rounded-full h-11" src={logo} alt="" />
+              <h2 className="text-2xl font-bold text-white mb-2">ClubSphere</h2>
+            </div>
+            <p className="text-gray-400 mt-2 text-sm">
               Discover, join, and manage local clubs easily. Your hub for
               communities and events.
             </p>
@@ -18,7 +22,9 @@ const Footer = () => {
           {/* Quick Links & Dashboard */}
           <div className="md:w-1/3 grid grid-cols-2 gap-4">
             <div>
-              <h3 className="font-semibold mb-2">Quick Links</h3>
+              <div>
+                <h3 className="font-semibold mb-2">Quick Links</h3>
+              </div>
               <ul className="text-gray-400 text-sm space-y-1">
                 <li>
                   <a href="/" className="hover:text-white">
@@ -26,18 +32,13 @@ const Footer = () => {
                   </a>
                 </li>
                 <li>
-                  <a href="" className="hover:text-white">
+                  <a href="/clubs" className="hover:text-white">
                     Clubs
                   </a>
                 </li>
                 <li>
-                  <a href="" className="hover:text-white">
+                  <a href="/events" className="hover:text-white">
                     Events
-                  </a>
-                </li>
-                <li>
-                  <a href="" className="hover:text-white">
-                    Pricing
                   </a>
                 </li>
               </ul>
