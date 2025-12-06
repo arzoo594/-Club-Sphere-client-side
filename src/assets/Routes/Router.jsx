@@ -8,6 +8,7 @@ import Events from "../Pages/Events";
 import AuthLayout from "../Layouts/AuthLayout";
 import BeAManager from "../Pages/BeAManager";
 import PrivateRoute from "./PrivateRoute";
+import DashboardLayout from "../Layouts/DashboardLayout";
 
 export const router = createBrowserRouter([
   {
@@ -50,5 +51,14 @@ export const router = createBrowserRouter([
         Component: Register,
       },
     ],
+  },
+  {
+    path: "dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoute>
+    ),
+    children: [],
   },
 ]);

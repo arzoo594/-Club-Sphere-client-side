@@ -2,22 +2,37 @@ import React, { useContext } from "react";
 import { AuthContext } from "../Contexts/AuthContext";
 import Swal from "sweetalert2";
 import { Navigate, useLocation, useNavigate } from "react-router";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 const SocialLogin = () => {
-  const { googleSignInFunc, user } = useContext(AuthContext);
+  const { googleSignInFunc } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from || "/";
+
+  const axiosSecure = useAxiosSecure();
+
   const handleGooleSignIn = () => {
     googleSignInFunc()
-      .then((res) => {
-        navigate(from, { replace: true });
-        Swal.fire({
-          title: `Welcome, ${user?.displayName}!`,
-          text: "You are logged in with Google",
-          icon: "success",
-          confirmButtonColor: "#6366f1",
-          confirmButtonText: "Continue",
+      .then((result) => {
+        console.log(result.user);
+
+        const userInfo = {
+          email: result.user.email,
+          displayName: result.user.displayName,
+          photoURL: result.user.photoURL,
+        };
+
+        axiosSecure.post("/users", userInfo).then((res) => {
+          console.log("user data has been stored", res.data);
+          Swal.fire({
+            title: `Welcome, ${result.user.displayName}!`,
+            text: "You are logged in with Google",
+            icon: "success",
+            confirmButtonColor: "#6366f1",
+            confirmButtonText: "Continue",
+          }).then(() => {
+            navigate(location.state?.from || "/");
+          });
         });
       })
       .catch((error) => {

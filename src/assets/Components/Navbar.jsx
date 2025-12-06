@@ -67,14 +67,26 @@ const Navbar = () => {
                   Events
                 </NavLink>
               </li>
-              <li>
-                <NavLink
-                  to="/be-a-manager"
-                  className="font-semibold text-secondary"
-                >
-                  Be a Club Manager
-                </NavLink>
-              </li>
+              {user && (
+                <li>
+                  <NavLink
+                    to="/be-a-manager"
+                    className="font-semibold text-secondary"
+                  >
+                    Be a Club Manager
+                  </NavLink>
+                </li>
+              )}
+              {user && (
+                <li>
+                  <NavLink
+                    to="/dashboard"
+                    className="font-semibold text-secondary"
+                  >
+                    DashBoard
+                  </NavLink>
+                </li>
+              )}
             </ul>
           </div>
 
@@ -109,14 +121,26 @@ const Navbar = () => {
                 Events
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/be-a-manager"
-                className="font-semibold text-secondary"
-              >
-                Be a Club Manager
-              </NavLink>
-            </li>
+            {user && (
+              <li>
+                <NavLink
+                  to="/be-a-manager"
+                  className="font-semibold text-secondary"
+                >
+                  Be a Club Manager
+                </NavLink>
+              </li>
+            )}
+            {user && (
+              <li>
+                <NavLink
+                  to="/dashboard"
+                  className="font-semibold text-secondary"
+                >
+                  DashBoard
+                </NavLink>
+              </li>
+            )}
           </ul>
         </div>
 
