@@ -9,6 +9,8 @@ import AuthLayout from "../Layouts/AuthLayout";
 import BeAManager from "../Pages/BeAManager";
 import PrivateRoute from "./PrivateRoute";
 import DashboardLayout from "../Layouts/DashboardLayout";
+import MyClub from "../Pages/MyClub";
+import MemberEvents from "../Pages/MemberEvents";
 
 export const router = createBrowserRouter([
   {
@@ -59,6 +61,15 @@ export const router = createBrowserRouter([
         <DashboardLayout></DashboardLayout>
       </PrivateRoute>
     ),
-    children: [],
+    children: [
+      {
+        path: "clubs",
+        element: <Clubs></Clubs>,
+      },
+      {
+        path: "dashboard/member-event",
+        element: <MemberEvents></MemberEvents>,
+      },
+    ],
   },
 ]);
