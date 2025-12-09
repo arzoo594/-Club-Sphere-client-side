@@ -1,4 +1,3 @@
-import React, { useContext } from "react";
 import { Link, Outlet } from "react-router";
 import logo from "../Images/Club Sphere.png";
 
@@ -15,9 +14,11 @@ import Home from "../Images/house.png";
 import all_events from "../Images/festival.png";
 
 import { AuthContext } from "../Contexts/AuthContext";
+import useRole from "../Hooks/useRole";
 
 const DashboardLayout = () => {
-  const { user } = useContext(AuthContext);
+  const { role } = useRole();
+  console.log(role);
 
   const menuItemClass =
     "flex items-center gap-3 p-2 rounded hover:bg-base-300 transition duration-200";
@@ -104,102 +105,107 @@ const DashboardLayout = () => {
               </>
 
               {/* Manager Section */}
-              <>
-                <p className="font-bold text-lg text-center text-primary mt-4 mb-2">
-                  ⭐ Manager ⭐
-                </p>
-                <li>
-                  <Link
-                    to="/dashboard/dashboard/my-club"
-                    className={menuItemClass}
-                  >
-                    <img src={golf} className="w-8 h-8" alt="" />
-                    <p className="font-bold text-secondary"> My Club</p>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/dashboard/dashboard/club-members"
-                    className={menuItemClass}
-                  >
-                    <img src={team} className="w-8 h-8" alt="" />
-                    <p className="font-bold text-secondary">Club Members</p>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/dashboard/dashboard/club-events"
-                    className={menuItemClass}
-                  >
-                    <img src={party} className="w-8 h-8" alt="" />
-                    <p className="font-bold text-secondary"> Club Events</p>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/dashboard/dashboard/create-club"
-                    className={menuItemClass}
-                  >
-                    <img src={create} className="w-8 h-8" alt="" />
-                    <p className="font-bold text-secondary"> Create Club</p>
-                  </Link>
-                </li>
-              </>
+              {role === "manager" && (
+                <>
+                  <p className="font-bold text-lg text-center text-primary mt-4 mb-2">
+                    ⭐ Manager ⭐
+                  </p>
+                  <li>
+                    <Link
+                      to="/dashboard/dashboard/my-club"
+                      className={menuItemClass}
+                    >
+                      <img src={golf} className="w-8 h-8" alt="" />
+                      <p className="font-bold text-secondary"> My Club</p>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/dashboard/dashboard/club-members"
+                      className={menuItemClass}
+                    >
+                      <img src={team} className="w-8 h-8" alt="" />
+                      <p className="font-bold text-secondary">Club Members</p>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/dashboard/dashboard/club-events"
+                      className={menuItemClass}
+                    >
+                      <img src={party} className="w-8 h-8" alt="" />
+                      <p className="font-bold text-secondary"> Club Events</p>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/dashboard/dashboard/create-club"
+                      className={menuItemClass}
+                    >
+                      <img src={create} className="w-8 h-8" alt="" />
+                      <p className="font-bold text-secondary"> Create Club</p>
+                    </Link>
+                  </li>
+                </>
+              )}
 
               {/* Admin Section */}
-              <>
-                <p className="font-bold text-lg text-center text-primary mt-4 mb-2">
-                  ⭐ Admin ⭐
-                </p>
-                <li>
-                  <Link
-                    to="/dashboard/dashboard/club-request"
-                    className={menuItemClass}
-                  >
-                    <img src={request} className="w-8 h-8" alt="" />
-                    <p className="font-bold text-secondary"> Club Requests</p>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/dashboard/dashboard/all-members"
-                    className={menuItemClass}
-                  >
-                    <img src={members} className="w-8 h-8" alt="" />
-                    <p className="font-bold text-secondary"> All Members</p>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/dashboard/dashboard/manager-request"
-                    className={menuItemClass}
-                  >
-                    <img src={requ_approve} className="w-8 h-8" alt="" />
-                    <p className="font-bold text-secondary">
-                      {" "}
-                      Manager Request Approved
-                    </p>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/dashboard/dashboard/all-clubs"
-                    className={menuItemClass}
-                  >
-                    <img src={golf_1} className="w-8 h-8" alt="" />
-                    <p className="font-bold text-secondary"> All Clubs</p>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/dashboard/dashboard/all-events"
-                    className={menuItemClass}
-                  >
-                    <img src={all_events} className="w-8 h-8" alt="" />
-                    <p className="font-bold text-secondary"> All Events</p>
-                  </Link>
-                </li>
-              </>
+
+              {role == "admin" && (
+                <>
+                  <p className="font-bold text-lg text-center text-primary mt-4 mb-2">
+                    ⭐ Admin ⭐
+                  </p>
+                  <li>
+                    <Link
+                      to="/dashboard/dashboard/club-request"
+                      className={menuItemClass}
+                    >
+                      <img src={request} className="w-8 h-8" alt="" />
+                      <p className="font-bold text-secondary"> Club Requests</p>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/dashboard/dashboard/all-members"
+                      className={menuItemClass}
+                    >
+                      <img src={members} className="w-8 h-8" alt="" />
+                      <p className="font-bold text-secondary"> All Members</p>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/dashboard/dashboard/manager-request"
+                      className={menuItemClass}
+                    >
+                      <img src={requ_approve} className="w-8 h-8" alt="" />
+                      <p className="font-bold text-secondary">
+                        {" "}
+                        Manager Request Approved
+                      </p>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/dashboard/dashboard/all-clubs"
+                      className={menuItemClass}
+                    >
+                      <img src={golf_1} className="w-8 h-8" alt="" />
+                      <p className="font-bold text-secondary"> All Clubs</p>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/dashboard/dashboard/all-events"
+                      className={menuItemClass}
+                    >
+                      <img src={all_events} className="w-8 h-8" alt="" />
+                      <p className="font-bold text-secondary"> All Events</p>
+                    </Link>
+                  </li>
+                </>
+              )}
               {/* Settings */}
               <li className="mt-auto">
                 <button className={menuItemClass}>

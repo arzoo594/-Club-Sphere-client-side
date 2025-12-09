@@ -11,6 +11,14 @@ import PrivateRoute from "./PrivateRoute";
 import DashboardLayout from "../Layouts/DashboardLayout";
 import MyClub from "../Pages/MyClub";
 import MemberEvents from "../Pages/MemberEvents";
+import ClubMembers from "../Pages/ClubMembers";
+import ClubEvent from "../Pages/ClubEvent";
+import CreateClub from "../Pages/CreateClub";
+import ClubRequest from "../Pages/ClubRequest";
+import AllMembers from "../Pages/AllMembers";
+import ManagerRepApproved from "../Pages/ManagerRepApproved";
+import AllClubs from "../Pages/AllClubs";
+import AllEvents from "../Pages/AllEvents";
 
 export const router = createBrowserRouter([
   {
@@ -69,6 +77,42 @@ export const router = createBrowserRouter([
       {
         path: "dashboard/member-event",
         element: <MemberEvents></MemberEvents>,
+      },
+      {
+        path: "dashboard/my-club",
+        element: <MyClub></MyClub>,
+      },
+      {
+        path: "dashboard/club-members",
+        element: <ClubMembers></ClubMembers>,
+      },
+      {
+        path: "dashboard/club-events",
+        element: <ClubEvent></ClubEvent>,
+      },
+      {
+        path: "dashboard/create-club",
+        element: <CreateClub></CreateClub>,
+      },
+      {
+        path: "dashboard/club-request",
+        element: <ClubRequest></ClubRequest>,
+      },
+      {
+        path: "dashboard/all-members",
+        element: <AllMembers></AllMembers>,
+      },
+      {
+        path: "dashboard/manager-request",
+        element: <ManagerRepApproved></ManagerRepApproved>,
+      },
+      {
+        path: "dashboard/all-clubs",
+        element: <AllClubs></AllClubs>,
+      },
+      {
+        path: "dashboard/all-events",
+        element: <AllEvents></AllEvents>,
       },
     ],
   },
