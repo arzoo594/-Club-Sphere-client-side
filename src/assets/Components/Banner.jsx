@@ -5,7 +5,7 @@ import TextTypee from "./TextTypee";
 const Banner = () => {
   return (
     <div>
-      <div className="relative bg-black my-8 w-full h-[420px]">
+      <div className="relative bg-black my-8 w-full min-h-[420px]">
         {/* GridScan Background */}
         <GridScan
           sensitivity={0.25}
