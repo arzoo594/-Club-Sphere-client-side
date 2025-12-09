@@ -83,6 +83,7 @@ const ManagerRepApproved = () => {
               <th className="px-4 py-2 text-left">Club Name</th>
               <th className="px-4 py-2 text-left">Club Type</th>
               <th className="px-4 py-2 text-left">Manager Email</th>
+              <th className="px-4 py-2 text-left">Status</th>
               <th className="px-4 py-2 text-left">Established Year</th>
               <th className="px-4 py-2 text-left">Has Experience</th>
               <th className="px-4 py-2 text-left">Actions</th>
@@ -96,20 +97,39 @@ const ManagerRepApproved = () => {
                 <td className="px-4 py-2 font-medium">{request.clubName}</td>
                 <td className="px-4 py-2">{request.clubType}</td>
                 <td className="px-4 py-2">{request.email}</td>
+                <td className="px-4 py-2">{request.status}</td>
                 <td className="px-4 py-2">{request.establishedYear}</td>
                 <td className="px-4 py-2">
                   {request.hasExperience ? "Yes" : "No"}
                 </td>
+
                 <td className="px-4 py-2 flex gap-2">
                   <button
                     onClick={() => handleAccept(request._id)}
-                    className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition"
+                    className={`
+ bg-green-500 text-white px-3 py-1 rounded transition
+ ${
+   request.status === "approved"
+     ? "opacity-50 cursor-not-allowed"
+     : "hover:bg-green-600"
+ }
+ `}
+                    disabled={request.status === "approved"}
                   >
                     Accept
                   </button>
+
                   <button
                     onClick={() => handleReject(request._id)}
-                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
+                    className={`
+ bg-red-500 text-white px-3 py-1 rounded transition
+ ${
+   request.status === "approved"
+     ? "opacity-50 cursor-not-allowed"
+     : "hover:bg-red-600"
+ }
+ `}
+                    disabled={request.status === "approved"}
                   >
                     Reject
                   </button>
