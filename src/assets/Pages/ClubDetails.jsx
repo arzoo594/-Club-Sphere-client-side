@@ -12,14 +12,14 @@ const ClubDetails = () => {
     queryKey: ["single-club", id],
     queryFn: async () => {
       const res = await axiosSecure.get(`/clubs/${id}`);
-
       return res.data;
     },
   });
-  const handlePayment = async () => {
+
+  const handlePayment = async (clubId) => {
     const paymentInfo = {
       monthlyCharge: club.monthlyCharge,
-      clubId: club._id,
+      clubId: clubId,
       email: club.email,
       clubName: club.clubName,
     };
@@ -42,9 +42,11 @@ const ClubDetails = () => {
       </p>
     );
 
+  const isMember =
+    club?.paymemtStatus === "paid" && club?.clubRole === "club-member";
+
   return (
     <div className="min-h-screen p-6 bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      {/* Header Branding */}
       <div className="max-w-4xl mx-auto mb-8">
         <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-8 rounded-3xl shadow-xl">
           <h1 className="text-4xl font-extrabold tracking-wide drop-shadow-lg">
@@ -60,9 +62,7 @@ const ClubDetails = () => {
         </div>
       </div>
 
-      {/* Main Card */}
       <div className="max-w-4xl mx-auto bg-white p-8 rounded-3xl shadow-2xl border border-gray-100">
-        {/* Logo */}
         <div className="flex flex-col items-center">
           <img
             src={club.logoUrl}
@@ -76,12 +76,18 @@ const ClubDetails = () => {
           <span className="mt-3 px-4 py-1 bg-indigo-100 text-indigo-700 text-sm font-semibold rounded-full shadow">
             {club.clubType.toUpperCase()}
           </span>
+
           <h1 className="mt-3 px-4 py-1 bg-indigo-100 text-indigo-700 rounded-full shadow">
             {club._id}
           </h1>
+
+          {isMember && (
+            <div className="mt-4 px-5 py-2 bg-green-100 border border-green-300 text-green-800 rounded-xl shadow-md font-semibold">
+              ✔ You are already a member of this club
+            </div>
+          )}
         </div>
 
-        {/* Info Section */}
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="p-5 bg-gray-50 rounded-xl border shadow-sm">
             <p className="text-gray-600 text-sm">📍 Location</p>
@@ -130,30 +136,31 @@ const ClubDetails = () => {
           </div>
         </div>
 
-        {/* Description */}
         <div className="mt-10 bg-gray-50 p-6 rounded-2xl shadow-md border">
           <h3 className="text-xl font-bold mb-2">📘 About This Club</h3>
           <p className="text-gray-700 leading-relaxed">{club.description}</p>
         </div>
 
-        {/* Join Club UI */}
-        <div className="mt-10 text-center">
-          <div className="w-full max-w-md bg-white/20 backdrop-blur-xl shadow-2xl rounded-2xl p-8 border border-white/30 mx-auto">
-            <h3 className="text-2xl font-bold mb-4">Become a Member</h3>
-            <p className="mb-4">
-              Monthly Charge: <strong>{club.monthlyCharge} $</strong>
-            </p>
-            <button
-              onClick={handlePayment}
-              className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl text-lg font-semibold shadow-lg hover:shadow-2xl hover:scale-[1.03] transition-all"
-            >
-              Join Club
-            </button>
-            <p className="mt-4 text-sm text-white/70">CLUBSPHERE_DEV_HELP</p>
-          </div>
-        </div>
+        {!isMember && (
+          <div className="mt-10 text-center">
+            <div className="w-full max-w-md bg-white/20 backdrop-blur-xl shadow-2xl rounded-2xl p-8 border border-white/30 mx-auto">
+              <h3 className="text-2xl font-bold mb-4">Become a Member</h3>
+              <p className="mb-4">
+                Monthly Charge: <strong>{club.monthlyCharge} $</strong>
+              </p>
 
-        {/* Footer Branding */}
+              <button
+                onClick={() => handlePayment(club._id)}
+                className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl text-lg font-semibold shadow-lg hover:shadow-2xl hover:scale-[1.03] transition-all"
+              >
+                Join Club
+              </button>
+
+              <p className="mt-4 text-sm text-white/70">CLUBSPHERE_DEV_HELP</p>
+            </div>
+          </div>
+        )}
+
         <p className="text-center text-sm text-gray-500 mt-10">
           Powered by{" "}
           <span className="font-semibold text-indigo-600">ClubSphere</span> —

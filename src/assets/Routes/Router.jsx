@@ -20,6 +20,7 @@ import ManagerRepApproved from "../Pages/ManagerRepApproved";
 import AllClubs from "../Pages/AllClubs";
 import AllEvents from "../Pages/AllEvents";
 import ClubDetails from "../Pages/ClubDetails";
+import PaymentSuccess from "../Components/PaymentSuccess";
 
 export const router = createBrowserRouter([
   {
@@ -54,6 +55,10 @@ export const router = createBrowserRouter([
             <ClubDetails></ClubDetails>
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/payment-success",
+        element: <PaymentSuccess></PaymentSuccess>,
       },
     ],
   },
