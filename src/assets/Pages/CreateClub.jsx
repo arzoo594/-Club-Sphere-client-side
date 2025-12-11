@@ -28,7 +28,10 @@ const CreateClub = () => {
       logoUrl: data.logoUrl,
       name: data.name,
       totalMembers: data.totalMembers,
+
+      monthlyCharge: data.monthlyCharge,
     };
+
     axiosSecure.post("/club-requests", clubData).then((res) => {
       if (res.data.insertedId) {
         Swal.fire({
@@ -219,6 +222,32 @@ const CreateClub = () => {
                 </p>
               )}
             </div>
+
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text font-semibold text-secondary">
+                  Monthly Membership Charge ($)
+                </span>
+              </label>
+              <input
+                {...register("monthlyCharge", {
+                  required: true,
+
+                  min: 0,
+                })}
+                type="number"
+                name="monthlyCharge"
+                placeholder="50"
+                className="input input-bordered w-full"
+                required
+              />
+              {errors.monthlyCharge && (
+                <p className="text-red-500 text-sm">
+                  Charge must be a non-negative number and is required
+                </p>
+              )}
+            </div>
+            {/* ---------------------------------------------------- */}
 
             <div className="form-control">
               <label className="label">

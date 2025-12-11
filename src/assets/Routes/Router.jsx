@@ -19,6 +19,7 @@ import AllMembers from "../Pages/AllMembers";
 import ManagerRepApproved from "../Pages/ManagerRepApproved";
 import AllClubs from "../Pages/AllClubs";
 import AllEvents from "../Pages/AllEvents";
+import ClubDetails from "../Pages/ClubDetails";
 
 export const router = createBrowserRouter([
   {
@@ -43,6 +44,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <BeAManager></BeAManager>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/club-details/:id",
+        element: (
+          <PrivateRoute>
+            <ClubDetails></ClubDetails>
           </PrivateRoute>
         ),
       },

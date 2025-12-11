@@ -11,9 +11,6 @@ const Clubs = () => {
     queryKey: ["all-clubs"],
     queryFn: async () => {
       const res = await axiosSecure.get("/clubs");
-
-      console.log("API RESPONSE:", res.data);
-
       return Array.isArray(res.data) ? res.data : [res.data];
     },
   });
@@ -23,59 +20,66 @@ const Clubs = () => {
   }
 
   return (
-    <div className="grid  grid-cols-1 md:grid-cols-3 gap-6 p-4">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-6">
       {clubs.map((club) => (
         <div
           key={club._id}
-          className="card bg-base-100 w-96 shadow-md border rounded-lg"
+          className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border overflow-hidden"
         >
-          <figure className="bg-gray-100 w-full h-48 overflow-hidden">
+          {/* IMAGE */}
+          <figure className="w-full h-48 overflow-hidden">
             <img
               src={club.logoUrl}
               alt={club.clubName}
-              className="w-full h-full p-2 object-cover"
+              className="w-full h-full object-cover"
             />
           </figure>
 
-          <div className="card-body space-y-2">
-            {/* Club Name */}
-            <h2 className="card-title text-lg font-bold flex items-center gap-2">
-              {club.clubName}
+          {/* BODY */}
+          <div className="p-5 space-y-3">
+            {/* Title */}
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold text-gray-800">
+                {club.clubName}
+              </h2>
               {club.isPublished && (
-                <div className="badge badge-success">Published</div>
+                <span className="badge badge-success">Published</span>
               )}
-            </h2>
+            </div>
 
-            {/* Club Type */}
-            <p className="text-sm font-semibold text-blue-600">
+            {/* Type */}
+            <span className="px-3 py-1 bg-blue-100 text-blue-600 text-xs font-semibold rounded-full w-fit">
               {club.clubType?.toUpperCase()}
-            </p>
+            </span>
 
             {/* Description */}
-            <p className="text-sm">{club.description}</p>
-
-            {/* Location */}
-            <p className="text-sm">
-              📍 <span className="font-medium">{club.location}</span>
+            <p className="text-gray-600 text-sm leading-relaxed">
+              {club.description.slice(0, 90)}...
             </p>
 
-            {/* Establishment Date */}
-            <p className="text-sm">
-              🗓 Established:{" "}
-              <span className="font-medium">
-                {new Date(club.establishmentDate).toLocaleDateString()}
-              </span>
-            </p>
+            {/* Info */}
+            <div className="text-sm text-gray-700 space-y-1">
+              <p>
+                📍 <span className="font-medium">{club.location}</span>
+              </p>
+              <p>
+                🗓 Established:{" "}
+                <span className="font-medium">
+                  {new Date(club.establishmentDate).toLocaleDateString()}
+                </span>
+              </p>
+              <p>
+                👥 <span className="font-bold">{club.totalMembers}</span>{" "}
+                Members
+              </p>
+            </div>
 
-            {/* Total Members */}
-            <p className="text-sm">
-              👥 <span className="font-bold">{club.totalMembers}</span> Members
-            </p>
-
-            {/* Action Button */}
-            <div className="card-actions justify-end mt-4">
-              <Link to={`/clubs/${club._id}`}>
-                <button className="btn btn-sm btn-primary">View Details</button>
+            {/* Button */}
+            <div className="pt-2">
+              <Link to={`/club-details/${club._id}`}>
+                <button className="btn btn-primary btn-sm w-full">
+                  View Details
+                </button>
               </Link>
             </div>
           </div>
