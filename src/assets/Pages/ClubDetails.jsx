@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "../Components/Loader";
+import { AuthContext } from "../Contexts/AuthContext";
 
 const ClubDetails = () => {
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
+  const { user } = useContext(AuthContext);
 
+  const [joined, setJoined] = useState(false);
+  const [checkingJoin, setCheckingJoin] = useState(true);
+
+  // 🔹 club data load
   const { data: club, isLoading } = useQuery({
     queryKey: ["single-club", id],
     queryFn: async () => {
@@ -16,22 +22,37 @@ const ClubDetails = () => {
     },
   });
 
+  // 🔹 check already joined or not
+  useEffect(() => {
+    if (user?.email && id) {
+      axiosSecure
+        .get(`/payments/status?email=${user.email}&clubId=${id}`)
+        .then((res) => {
+          setJoined(res.data.joined);
+          setCheckingJoin(false);
+        })
+        .catch(() => setCheckingJoin(false));
+    }
+  }, [user, id, axiosSecure]);
+
+  // 🔹 payment handler
   const handlePayment = async (clubId) => {
     const paymentInfo = {
       monthlyCharge: club.monthlyCharge,
       clubId: clubId,
-      email: club.email,
+      email: user.email,
       clubName: club.clubName,
+      managerEmail: club.email,
     };
 
     const res = await axiosSecure.post("/create-checkout-session", paymentInfo);
     window.location.href = res.data.url;
   };
 
-  if (isLoading)
+  if (isLoading || checkingJoin)
     return (
-      <p className="text-center mt-10 text-lg font-semibold">
-        <Loader></Loader>
+      <p className="text-center mt-10">
+        <Loader />
       </p>
     );
 
@@ -41,9 +62,6 @@ const ClubDetails = () => {
         No club data found!
       </p>
     );
-
-  const isMember =
-    club?.paymemtStatus === "paid" && club?.clubRole === "club-member";
 
   return (
     <div className="min-h-screen p-6 bg-gradient-to-br from-blue-50 via-white to-purple-50">
@@ -80,11 +98,24 @@ const ClubDetails = () => {
           <h1 className="mt-3 px-4 py-1 bg-indigo-100 text-indigo-700 rounded-full shadow">
             {club._id}
           </h1>
+        </div>
 
-          {isMember && (
-            <div className="mt-4 px-5 py-2 bg-green-100 border border-green-300 text-green-800 rounded-xl shadow-md font-semibold">
-              ✔ You are already a member of this club
-            </div>
+        {/* 🔔 JOIN STATUS BADGE */}
+        <div className="mt-3 text-center">
+          {joined ? (
+            <span
+              className="px-4 py-1 text-sm font-semibold rounded-full 
+      bg-green-100 text-green-700 border border-green-300 shadow-sm"
+            >
+              ✅ Already Joined
+            </span>
+          ) : (
+            <span
+              className="px-4 py-1 text-sm font-semibold rounded-full 
+      bg-yellow-100 text-yellow-700 border border-yellow-300 shadow-sm"
+            >
+              ⏳ Not Joined Yet
+            </span>
           )}
         </div>
 
@@ -141,25 +172,35 @@ const ClubDetails = () => {
           <p className="text-gray-700 leading-relaxed">{club.description}</p>
         </div>
 
-        {!isMember && (
-          <div className="mt-10 text-center">
-            <div className="w-full max-w-md bg-white/20 backdrop-blur-xl shadow-2xl rounded-2xl p-8 border border-white/30 mx-auto">
-              <h3 className="text-2xl font-bold mb-4">Become a Member</h3>
-              <p className="mb-4">
-                Monthly Charge: <strong>{club.monthlyCharge} $</strong>
-              </p>
+        {/* 🔥 JOIN / ALREADY JOINED SECTION */}
+        <div className="mt-10 text-center">
+          <div className="w-full max-w-md bg-white/20 backdrop-blur-xl shadow-2xl rounded-2xl p-8 border border-white/30 mx-auto">
+            {joined ? (
+              <>
+                <h3 className="text-2xl font-bold text-green-600 mb-2">
+                  ✅ Already Joined
+                </h3>
+                <p className="text-gray-600">
+                  You are already a member of this club.
+                </p>
+              </>
+            ) : (
+              <>
+                <h3 className="text-2xl font-bold mb-4">Become a Member</h3>
+                <p className="mb-4">
+                  Monthly Charge: <strong>{club.monthlyCharge} $</strong>
+                </p>
 
-              <button
-                onClick={() => handlePayment(club._id)}
-                className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl text-lg font-semibold shadow-lg hover:shadow-2xl hover:scale-[1.03] transition-all"
-              >
-                Join Club
-              </button>
-
-              <p className="mt-4 text-sm text-white/70">CLUBSPHERE_DEV_HELP</p>
-            </div>
+                <button
+                  onClick={() => handlePayment(club._id)}
+                  className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl text-lg font-semibold shadow-lg hover:shadow-2xl hover:scale-[1.03] transition-all"
+                >
+                  Join Club
+                </button>
+              </>
+            )}
           </div>
-        )}
+        </div>
 
         <p className="text-center text-sm text-gray-500 mt-10">
           Powered by{" "}
