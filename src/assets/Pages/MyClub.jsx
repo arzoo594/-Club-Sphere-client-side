@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Contexts/AuthContext";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
-import { Loader } from "three/src/Three.Core.js";
 
 const MyClub = () => {
   const { user } = useContext(AuthContext);
@@ -20,11 +19,7 @@ const MyClub = () => {
   }, [axiosSecure, user]);
 
   if (loading) {
-    return (
-      <div className="text-center py-10">
-        <Loader></Loader>
-      </div>
-    );
+    return <div className="text-center py-10">Loading.....</div>;
   }
 
   if (!clubs.length) {
@@ -47,6 +42,9 @@ const MyClub = () => {
             />
             <div>
               <h2 className="text-xl font-semibold">{club.clubName}</h2>
+              <h2 className="text-lg text-gray-500 font-semibold">
+                {club._id}
+              </h2>
               <p className="text-sm text-gray-500">
                 {club.clubType.toUpperCase()} Club
               </p>
