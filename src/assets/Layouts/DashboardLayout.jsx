@@ -88,9 +88,12 @@ const DashboardLayout = () => {
                   ⭐ Members ⭐
                 </p>
                 <li>
-                  <Link to="/clubs" className={menuItemClass}>
+                  <Link
+                    to="/dashboard/dashboard/my-clubs"
+                    className={menuItemClass}
+                  >
                     <img src={golf} className="w-8 h-8" alt="" />
-                    <p className="font-bold text-secondary">Clubs</p>
+                    <p className="font-bold text-secondary">My Clubs</p>
                   </Link>
                 </li>
                 <li>
@@ -99,7 +102,7 @@ const DashboardLayout = () => {
                     className={menuItemClass}
                   >
                     <img src={party} className="w-8 h-8" alt="" />
-                    <p className="font-bold text-secondary"> Member Event</p>
+                    <p className="font-bold text-secondary"> MY Event</p>
                   </Link>
                 </li>
               </>
@@ -125,7 +128,9 @@ const DashboardLayout = () => {
                       className={menuItemClass}
                     >
                       <img src={team} className="w-8 h-8" alt="" />
-                      <p className="font-bold text-secondary">Club Members</p>
+                      <p className="font-bold text-secondary">
+                        My Club Members
+                      </p>
                     </Link>
                   </li>
                   <li>
@@ -134,7 +139,7 @@ const DashboardLayout = () => {
                       className={menuItemClass}
                     >
                       <img src={party} className="w-8 h-8" alt="" />
-                      <p className="font-bold text-secondary"> Club Events</p>
+                      <p className="font-bold text-secondary">My Club Events</p>
                     </Link>
                   </li>
                   <li>

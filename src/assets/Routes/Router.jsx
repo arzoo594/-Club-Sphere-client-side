@@ -21,6 +21,7 @@ import AllClubs from "../Pages/AllClubs";
 import AllEvents from "../Pages/AllEvents";
 import ClubDetails from "../Pages/ClubDetails";
 import PaymentSuccess from "../Components/PaymentSuccess";
+import MyClubsMember from "../Pages/MyClubsMember";
 
 export const router = createBrowserRouter([
   {
@@ -85,8 +86,8 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "clubs",
-        element: <Clubs></Clubs>,
+        path: "dashboard/my-clubs",
+        element: <MyClubsMember></MyClubsMember>,
       },
       {
         path: "dashboard/member-event",
