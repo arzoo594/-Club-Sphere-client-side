@@ -50,6 +50,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+
       {
         path: "/club-details/:id",
         element: (
