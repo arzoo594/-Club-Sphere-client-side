@@ -1,17 +1,7 @@
-// import React from "react";
-
-// const MyClub = () => {
-//   return (
-//     <div>
-//       <p>This is a My Club page</p>
-//     </div>
-//   );
-// };
-
-// export default MyClub;
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Contexts/AuthContext";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
+import { Loader } from "three/src/Three.Core.js";
 
 const MyClub = () => {
   const { user } = useContext(AuthContext);
@@ -30,7 +20,11 @@ const MyClub = () => {
   }, [axiosSecure, user]);
 
   if (loading) {
-    return <div className="text-center py-10">Loading...</div>;
+    return (
+      <div className="text-center py-10">
+        <Loader></Loader>
+      </div>
+    );
   }
 
   if (!clubs.length) {
@@ -59,12 +53,10 @@ const MyClub = () => {
             </div>
           </div>
 
-          {/* Description */}
           <p className="text-gray-700 text-sm mb-4 line-clamp-3">
             {club.description}
           </p>
 
-          {/* Info Grid */}
           <div className="grid grid-cols-2 gap-3 text-sm">
             <div>
               <span className="text-gray-500">Location</span>
@@ -87,7 +79,6 @@ const MyClub = () => {
             </div>
           </div>
 
-          {/* Status */}
           <div className="mt-4 flex items-center justify-between">
             <span
               className={`px-3 py-1 text-xs rounded-full font-medium

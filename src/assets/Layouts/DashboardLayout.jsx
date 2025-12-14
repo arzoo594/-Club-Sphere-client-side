@@ -1,7 +1,7 @@
 import { Link, Outlet } from "react-router";
 import logo from "../Images/Club Sphere.png";
 
-// Icons / Images
+import createEvent from "../Images/event.png";
 import party from "../Images/event-management.png";
 import golf from "../Images/golf-club.png";
 import team from "../Images/team (1).png";
@@ -149,6 +149,15 @@ const DashboardLayout = () => {
                     >
                       <img src={create} className="w-8 h-8" alt="" />
                       <p className="font-bold text-secondary"> Create Club</p>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/dashboard/dashboard/create-event"
+                      className={menuItemClass}
+                    >
+                      <img src={createEvent} className="w-8 h-8" alt="" />
+                      <p className="font-bold text-secondary"> Create Event</p>
                     </Link>
                   </li>
                 </>
