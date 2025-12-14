@@ -18,13 +18,13 @@ const CreateEvent = () => {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      const res = await axiosSecure.post("/events", data); // frontend থেকে createdBy পাঠানো হবে
+      const res = await axiosSecure.post("/events", data);
       Swal.fire({
         icon: "success",
         title: "Event Created",
         text: "Event has been successfully created!",
       });
-      reset(); // Form clear
+      reset();
     } catch (err) {
       Swal.fire({
         icon: "error",
@@ -66,9 +66,8 @@ const CreateEvent = () => {
           )}
         </div>
 
-        {/* Title */}
         <div>
-          <label className="block mb-2 font-medium">Title</label>
+          <label className="block mb-2 font-medium">Event Title</label>
           <input
             type="text"
             {...register("title", { required: "Title is required" })}
