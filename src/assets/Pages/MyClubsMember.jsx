@@ -29,7 +29,15 @@ const MyClubsMember = () => {
   if (loading) return <div className="text-center py-10">Loading...</div>;
   if (error) return <div className="text-center text-red-500">{error}</div>;
   if (!payments.length)
-    return <div className="text-center py-10">No payments found.</div>;
+    return (
+      <div className="text-center  py-2">
+        <h1 className="text-secondary font-bold text-2xl mb-4">My Club</h1>
+        <p className="text-gray-500">
+          {" "}
+          You haven’t joined any club yet.<br></br> Please Join Club.
+        </p>
+      </div>
+    );
 
   return (
     <div className="p-6 bg-white rounded-xl shadow-md">

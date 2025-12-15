@@ -179,15 +179,7 @@ const DashboardLayout = () => {
                       <p className="font-bold text-secondary"> Club Requests</p>
                     </Link>
                   </li>
-                  <li>
-                    <Link
-                      to="/dashboard/dashboard/all-members"
-                      className={menuItemClass}
-                    >
-                      <img src={members} className="w-8 h-8" alt="" />
-                      <p className="font-bold text-secondary"> All Members</p>
-                    </Link>
-                  </li>
+
                   <li>
                     <Link
                       to="/dashboard/dashboard/manager-request"
@@ -197,6 +189,18 @@ const DashboardLayout = () => {
                       <p className="font-bold text-secondary">
                         {" "}
                         Manager Request Approved
+                      </p>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/dashboard/dashboard/all-members"
+                      className={menuItemClass}
+                    >
+                      <img src={members} className="w-8 h-8" alt="" />
+                      <p className="font-bold text-secondary">
+                        {" "}
+                        All Club Members
                       </p>
                     </Link>
                   </li>
