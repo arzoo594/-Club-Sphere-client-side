@@ -84,27 +84,31 @@ const DashboardLayout = () => {
 
               {/* Members Section */}
               <>
-                <p className="font-bold text-lg text-center text-primary mt-4 mb-2">
-                  ⭐ Members ⭐
-                </p>
-                <li>
-                  <Link
-                    to="/dashboard/dashboard/my-clubs"
-                    className={menuItemClass}
-                  >
-                    <img src={golf} className="w-8 h-8" alt="" />
-                    <p className="font-bold text-secondary">My Clubs</p>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/dashboard/dashboard/member-event"
-                    className={menuItemClass}
-                  >
-                    <img src={party} className="w-8 h-8" alt="" />
-                    <p className="font-bold text-secondary"> MY Event</p>
-                  </Link>
-                </li>
+                {role === "member" && (
+                  <>
+                    <p className="font-bold text-lg text-center text-primary mt-4 mb-2">
+                      ⭐ Members ⭐
+                    </p>
+                    <li>
+                      <Link
+                        to="/dashboard/dashboard/my-clubs"
+                        className={menuItemClass}
+                      >
+                        <img src={golf} className="w-8 h-8" alt="" />
+                        <p className="font-bold text-secondary">My Clubs</p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/dashboard/dashboard/member-event"
+                        className={menuItemClass}
+                      >
+                        <img src={party} className="w-8 h-8" alt="" />
+                        <p className="font-bold text-secondary"> MY Event</p>
+                      </Link>
+                    </li>
+                  </>
+                )}
               </>
 
               {/* Manager Section */}
