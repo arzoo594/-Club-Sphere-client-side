@@ -14,6 +14,7 @@ const AllMembers = () => {
     queryKey: ["allClubMembers"],
     queryFn: async () => {
       const res = await axiosSecure.get("/club-memberss");
+      console.log(res.data);
       return res.data;
     },
   });
@@ -41,7 +42,7 @@ const AllMembers = () => {
                 <th>Serial No</th>
                 <th>Customer Email</th>
                 <th>Club Name</th>
-                <th>Payment Date</th>
+                <th>Approved Date</th>
               </tr>
             </thead>
 
@@ -49,7 +50,7 @@ const AllMembers = () => {
               {members.map((member, index) => (
                 <tr key={member._id} className="hover">
                   <td>{index + 1}</td>
-                  <td className="font-medium">{member.customerEmail}</td>
+                  <td className="font-medium">{member.email}</td>
                   <td>
                     {member.clubName ? (
                       member.clubName
@@ -58,8 +59,8 @@ const AllMembers = () => {
                     )}
                   </td>
                   <td>
-                    {member.paidAt
-                      ? new Date(member.paidAt).toLocaleDateString()
+                    {member.approvedAt
+                      ? new Date(member.approvedAt).toLocaleDateString()
                       : "N/A"}
                   </td>
                 </tr>
