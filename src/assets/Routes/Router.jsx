@@ -23,6 +23,7 @@ import ClubDetails from "../Pages/ClubDetails";
 import PaymentSuccess from "../Components/PaymentSuccess";
 import MyClubsMember from "../Pages/MyClubsMember";
 import CreateEvent from "../Pages/CreateEvent";
+import HomeDashboard from "../Dashboard/HomeDashboard";
 
 export const router = createBrowserRouter([
   {
@@ -87,6 +88,10 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
+      {
+        index: true,
+        element: <HomeDashboard></HomeDashboard>,
+      },
       {
         path: "dashboard/my-clubs",
         element: <MyClubsMember></MyClubsMember>,
