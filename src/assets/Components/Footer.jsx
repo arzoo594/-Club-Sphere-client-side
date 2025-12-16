@@ -4,91 +4,90 @@ import logo from "../Images/Club Sphere.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-gray-200 pt-10 pb-6">
-      <div className="w-11/12 mx-auto max-w-7xl">
-        <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-8">
-          {/* About Section */}
-          <div className="md:w-1/3">
-            <div className="flex items-center gap-2">
-              <img className="w-11 rounded-full h-11" src={logo} alt="" />
-              <h2 className="text-2xl font-bold text-white mb-2">ClubSphere</h2>
+    <footer className="relative overflow-hidden text-purple-200">
+      {/* Gradient Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#1a0033] to-[#2d0b59]"></div>
+
+      {/* Glow Effects */}
+      <div className="absolute top-10 left-10 w-72 h-72 bg-purple-600/20 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-10 right-10 w-72 h-72 bg-pink-600/20 rounded-full blur-3xl"></div>
+
+      <div className="relative w-11/12 mx-auto max-w-7xl pt-14 pb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          {/* About */}
+          <div>
+            <div className="flex items-center gap-3">
+              <img
+                src={logo}
+                alt="ClubSphere"
+                className="w-12 h-12 rounded-full border border-purple-500"
+              />
+              <h2 className="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-purple-400">
+                ClubSphere
+              </h2>
             </div>
-            <p className="text-gray-400 mt-2 text-sm">
-              Discover, join, and manage local clubs easily. Your hub for
-              communities and events.
+            <p className="mt-4 text-sm text-purple-300 leading-relaxed">
+              Discover, join, and manage clubs effortlessly. ClubSphere is your
+              ultimate hub for communities, events, and leadership.
             </p>
           </div>
 
-          {/* Quick Links & Dashboard */}
-          <div className="md:w-1/3 grid grid-cols-2 gap-4">
+          {/* Links */}
+          <div className="grid grid-cols-2 gap-8">
             <div>
-              <div>
-                <h3 className="font-semibold mb-2">Quick Links</h3>
-              </div>
-              <ul className="text-gray-400 text-sm space-y-1">
-                <li>
-                  <a href="/" className="hover:text-white">
-                    Home
-                  </a>
-                </li>
-                <li>
-                  <a href="/clubs" className="hover:text-white">
-                    Clubs
-                  </a>
-                </li>
-                <li>
-                  <a href="/events" className="hover:text-white">
-                    Events
-                  </a>
-                </li>
+              <h3 className="font-semibold text-white mb-3">Quick Links</h3>
+              <ul className="space-y-2 text-sm">
+                {["Home", "Clubs", "Events"].map((item) => (
+                  <li key={item}>
+                    <a
+                      href={`/${item.toLowerCase()}`}
+                      className="hover:text-white transition"
+                    >
+                      {item}
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
+
             <div>
-              <h3 className="font-semibold mb-2">Dashboard</h3>
-              <ul className="text-gray-400 text-sm space-y-1">
-                <li>
-                  <a href="" className="hover:text-white">
-                    Member
-                  </a>
-                </li>
-                <li>
-                  <a href="" className="hover:text-white">
-                    Manager
-                  </a>
-                </li>
-                <li>
-                  <a href="" className="hover:text-white">
-                    Admin
-                  </a>
-                </li>
+              <h3 className="font-semibold text-white mb-3">Dashboard</h3>
+              <ul className="space-y-2 text-sm">
+                {["Member", "Manager", "Admin"].map((role) => (
+                  <li key={role}>
+                    <a href="#" className="hover:text-white transition">
+                      {role}
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
 
-          {/* Social Links */}
-          <div className="md:w-1/3">
-            <h3 className="font-semibold mb-2">Connect with us</h3>
-            <div className="flex space-x-4 mt-2">
-              <a href="" target="_blank" rel="noopener noreferrer">
-                <FaGithub className="w-6 h-6 hover:text-white" />
+          {/* Social */}
+          <div>
+            <h3 className="font-semibold text-white mb-3">Connect with us</h3>
+            <div className="flex gap-4 mt-2">
+              <a className="p-3 rounded-full bg-white/5 hover:bg-white/10 hover:scale-110 transition">
+                <FaGithub className="w-5 h-5" />
               </a>
-              <a href="" target="_blank" rel="noopener noreferrer">
-                <FaLinkedin className="w-6 h-6 hover:text-white" />
+              <a className="p-3 rounded-full bg-white/5 hover:bg-white/10 hover:scale-110 transition">
+                <FaLinkedin className="w-5 h-5" />
               </a>
-              <a href="" target="_blank" rel="noopener noreferrer">
-                <FaFacebook className="w-6 h-6 hover:text-white" />
+              <a className="p-3 rounded-full bg-white/5 hover:bg-white/10 hover:scale-110 transition">
+                <FaFacebook className="w-5 h-5" />
               </a>
             </div>
           </div>
         </div>
 
         {/* Divider */}
-        <div className="border-t border-gray-700 mt-8"></div>
+        <div className="border-t border-purple-700/40 my-8"></div>
 
         {/* Copyright */}
-        <div className="mt-4 text-center text-gray-500 text-sm">
-          &copy; {new Date().getFullYear()} ClubSphere. All rights reserved.
-        </div>
+        <p className="text-center text-sm text-purple-400">
+          © {new Date().getFullYear()} ClubSphere. All rights reserved.
+        </p>
       </div>
     </footer>
   );

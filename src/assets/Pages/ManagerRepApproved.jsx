@@ -3,6 +3,7 @@ import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "../Components/Loader";
 import Swal from "sweetalert2";
+import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
 const ManagerRepApproved = () => {
   const axiosSecure = useAxiosSecure();
@@ -19,11 +20,8 @@ const ManagerRepApproved = () => {
     },
   });
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  if (isLoading) return <Loader />;
 
-  // ✅ Accept handler with SweetAlert
   const handleAccept = async (id) => {
     try {
       const res = await axiosSecure.patch(
@@ -32,7 +30,7 @@ const ManagerRepApproved = () => {
       if (res.data.message) {
         Swal.fire({
           icon: "success",
-          title: "Approved!",
+          title: "Approved! ✅",
           text: "This request has been approved and user is now a Manager.",
         });
         refetch();
@@ -47,14 +45,13 @@ const ManagerRepApproved = () => {
     }
   };
 
-  // ✅ Reject handler with SweetAlert
   const handleReject = async (id) => {
     try {
       const res = await axiosSecure.patch(`/club-manager-request/reject/${id}`);
       if (res.data.message) {
         Swal.fire({
           icon: "info",
-          title: "Rejected",
+          title: "Rejected ❌",
           text: "This request has been rejected.",
         });
         refetch();
@@ -70,79 +67,100 @@ const ManagerRepApproved = () => {
   };
 
   return (
-    <div className="p-4">
-      <p className="mb-4 text-lg font-semibold text-purple-700">
-        Total Requests: {requests.length}
-      </p>
+    <div className="relative min-h-screen overflow-hidden my-8">
+      {/* Background Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#1a0033] to-[#2d0b59]"></div>
+      {/* Glow Effects */}
+      <div className="absolute top-20 left-10 w-80 h-80 bg-purple-600/20 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-20 right-10 w-80 h-80 bg-pink-600/20 rounded-full blur-3xl"></div>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full border border-gray-200 rounded-lg shadow-md divide-y divide-gray-200">
-          <thead className="bg-purple-500 text-white">
-            <tr>
-              <th className="px-4 py-2 text-left">Request No</th>
-              <th className="px-4 py-2 text-left">Club Name</th>
-              <th className="px-4 py-2 text-left">Club Type</th>
-              <th className="px-4 py-2 text-left">Manager Email</th>
-              <th className="px-4 py-2 text-left">Status</th>
-              <th className="px-4 py-2 text-left">Established Year</th>
-              <th className="px-4 py-2 text-left">Has Experience</th>
-              <th className="px-4 py-2 text-left">Actions</th>
-            </tr>
-          </thead>
+      <div className="relative w-11/12 max-w-7xl mx-auto py-12">
+        {/* Heading */}
+        <h2
+          className="text-4xl md:text-5xl font-extrabold text-center mb-10
+          bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-purple-400"
+        >
+          Club Manager Requests ({requests.length})
+        </h2>
 
-          <tbody className="bg-white divide-y divide-gray-200">
-            {requests.map((request, index) => (
-              <tr key={request._id} className="hover:bg-purple-50">
-                <td className="px-4 py-2">{index + 1}</td>
-                <td className="px-4 py-2 font-medium">{request.clubName}</td>
-                <td className="px-4 py-2">{request.clubType}</td>
-                <td className="px-4 py-2">{request.email}</td>
-                <td className="px-4 py-2">{request.status}</td>
-                <td className="px-4 py-2">{request.establishedYear}</td>
-                <td className="px-4 py-2">
-                  {request.hasExperience ? "Yes" : "No"}
-                </td>
+        {requests.length === 0 ? (
+          <div className="text-center p-12 bg-white/5 backdrop-blur-xl border border-purple-700/40 rounded-2xl shadow-2xl">
+            <p className="text-purple-200 text-xl">No requests found.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {requests.map((req, index) => {
+              const isProcessed = req.status !== "pending";
+              let statusColor = "bg-yellow-400";
+              if (req.status === "approved") statusColor = "bg-green-500";
+              else if (req.status === "rejected") statusColor = "bg-red-500";
 
-                <td className="px-4 py-2 flex gap-2">
-                  <button
-                    onClick={() => handleAccept(request._id)}
-                    className={`
- bg-green-500 text-white px-3 py-1 rounded transition
- ${
-   request.status === "approved"
-     ? "opacity-50 cursor-not-allowed"
-     : "hover:bg-green-600"
- }
- `}
-                    disabled={request.status === "approved"}
-                  >
-                    Accept
-                  </button>
+              return (
+                <div
+                  key={req._id}
+                  className="group bg-white/5 backdrop-blur-xl border border-purple-700/40 rounded-2xl overflow-hidden
+                    hover:scale-[1.02] hover:shadow-2xl transition-all duration-300"
+                >
+                  <div className="p-5 space-y-3 text-purple-200">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-xl font-bold text-white">
+                        {req.clubName}
+                      </h3>
+                      <span
+                        className={`px-3 py-1 text-xs rounded-full font-semibold text-white ${statusColor}`}
+                      >
+                        {req.status.toUpperCase()}
+                      </span>
+                    </div>
 
-                  <button
-                    onClick={() => handleReject(request._id)}
-                    className={`
- bg-red-500 text-white px-3 py-1 rounded transition
- ${
-   request.status === "approved"
-     ? "opacity-50 cursor-not-allowed"
-     : "hover:bg-red-600"
- }
- `}
-                    disabled={request.status === "approved"}
-                  >
-                    Reject
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                    <span className="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-purple-500/20 text-purple-300">
+                      {req.clubType?.toUpperCase()}
+                    </span>
+
+                    <p className="text-sm text-purple-300 truncate">
+                      Manager Email: {req.email}
+                    </p>
+
+                    <div className="text-sm space-y-1">
+                      <p>
+                        Established Year:{" "}
+                        <span className="font-medium">
+                          {req.establishedYear}
+                        </span>
+                      </p>
+                      <p>
+                        Has Experience:{" "}
+                        <span className="font-medium">
+                          {req.hasExperience ? "Yes" : "No"}
+                        </span>
+                      </p>
+                    </div>
+
+                    <div className="flex gap-2 mt-4">
+                      <button
+                        onClick={() => handleAccept(req._id)}
+                        disabled={isProcessed}
+                        className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-full font-semibold
+                          bg-green-500 text-white hover:scale-105 transition disabled:opacity-50 disabled:cursor-not-allowed`}
+                      >
+                        <FaCheckCircle /> Accept
+                      </button>
+                      <button
+                        onClick={() => handleReject(req._id)}
+                        disabled={isProcessed}
+                        className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-full font-semibold
+                          bg-red-500 text-white hover:scale-105 transition disabled:opacity-50 disabled:cursor-not-allowed`}
+                      >
+                        <FaTimesCircle /> Reject
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
-
-      {requests.length === 0 && (
-        <p className="text-center text-gray-500 mt-4">No requests found.</p>
-      )}
     </div>
   );
 };

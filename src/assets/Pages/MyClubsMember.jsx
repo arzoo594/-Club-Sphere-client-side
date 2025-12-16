@@ -31,7 +31,6 @@ const MyClubsMember = () => {
   if (!payments.length)
     return (
       <div className="text-center  py-2">
-        <h1 className="text-secondary font-bold text-2xl mb-4">My Club</h1>
         <p className="text-gray-500">
           {" "}
           You haven’t joined any club yet.<br></br> Please Join Club.

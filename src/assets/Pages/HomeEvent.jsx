@@ -1,22 +1,14 @@
-import React, { useContext, useState } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import React, { useState } from "react";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
-import { AuthContext } from "../Contexts/AuthContext";
-import Swal from "sweetalert2";
+import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router";
 import Loader from "../Components/Loader";
 
-const Events = () => {
+const HomeEvent = () => {
   const axiosSecure = useAxiosSecure();
-  const { user } = useContext(AuthContext);
-  const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState("");
 
-  const {
-    data: events = [],
-    isLoading,
-    isError,
-    error,
-  } = useQuery({
+  const { data: events = [], isLoading } = useQuery({
     queryKey: ["events"],
     queryFn: async () => {
       const res = await axiosSecure.get("/events");
@@ -25,43 +17,11 @@ const Events = () => {
   });
 
   if (isLoading) return <Loader />;
-  if (isError)
-    return (
-      <p className="text-center mt-10 text-red-400">Error: {error.message}</p>
-    );
 
-  const handleRegister = async (eventId) => {
-    if (!user?.email) {
-      return Swal.fire({
-        icon: "warning",
-        title: "Login required",
-        text: "Please login first to register",
-      });
-    }
+  // Take only 6 events
+  const homeEvents = events.slice(0, 6);
 
-    try {
-      await axiosSecure.post("/event-registration", {
-        eventId,
-        userEmail: user.email,
-      });
-
-      Swal.fire({
-        icon: "success",
-        title: "Registered!",
-        text: "You have successfully registered for this event",
-      });
-
-      queryClient.invalidateQueries(["events"]);
-    } catch (err) {
-      Swal.fire({
-        icon: "error",
-        title: "Failed",
-        text: err.response?.data?.message || "Registration failed",
-      });
-    }
-  };
-
-  const filteredEvents = events.filter((event) =>
+  const filteredEvents = homeEvents.filter((event) =>
     event.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -94,6 +54,7 @@ const Events = () => {
           />
         </div>
 
+        {/* Events Grid */}
         {filteredEvents.length === 0 ? (
           <p className="text-center text-purple-300">No events found.</p>
         ) : (
@@ -112,14 +73,12 @@ const Events = () => {
                       event.imageUrl || "https://via.placeholder.com/400x200"
                     }
                     alt={event.title}
-                    className="w-full h-full object-cover
-                    group-hover:scale-110 transition duration-500"
+                    className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
                   />
-
                   {event.isRegistered && (
                     <span
                       className="absolute top-3 right-3 px-3 py-1 text-xs
-                    bg-green-500 text-white rounded-full font-semibold"
+                      bg-green-500 text-white rounded-full font-semibold"
                     >
                       Registered
                     </span>
@@ -148,18 +107,6 @@ const Events = () => {
                   </p>
 
                   {/* Button */}
-                  <button
-                    disabled={event.isRegistered}
-                    onClick={() => handleRegister(event._id)}
-                    className={`mt-auto w-full py-2 rounded-full font-semibold transition
-                    ${
-                      event.isRegistered
-                        ? "bg-gray-500 cursor-not-allowed text-white"
-                        : "bg-gradient-to-r from-pink-500 to-purple-600 hover:scale-105 text-white"
-                    }`}
-                  >
-                    {event.isRegistered ? "Already Registered" : "Register Now"}
-                  </button>
                 </div>
               </div>
             ))}
@@ -170,4 +117,4 @@ const Events = () => {
   );
 };
 
-export default Events;
+export default HomeEvent;

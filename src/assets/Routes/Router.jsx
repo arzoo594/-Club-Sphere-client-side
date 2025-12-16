@@ -24,6 +24,7 @@ import PaymentSuccess from "../Components/PaymentSuccess";
 import MyClubsMember from "../Pages/MyClubsMember";
 import CreateEvent from "../Pages/CreateEvent";
 import HomeDashboard from "../Dashboard/HomeDashboard";
+import AllClubTotalPayments from "../Pages/AllClubTotalPayments";
 
 export const router = createBrowserRouter([
   {
@@ -139,6 +140,10 @@ export const router = createBrowserRouter([
       {
         path: "dashboard/all-events",
         element: <AllEvents></AllEvents>,
+      },
+      {
+        path: "dashboard/all-revenue",
+        element: <AllClubTotalPayments></AllClubTotalPayments>,
       },
     ],
   },

@@ -1,280 +1,3 @@
-// // import React from "react";
-// // import useAxiosSecure from "../Hooks/useAxiosSecure";
-// // import { useQuery } from "@tanstack/react-query";
-// // import Loader from "../Components/Loader";
-
-// // const ClubRequest = () => {
-// //   const axiosSecure = useAxiosSecure();
-
-// //   const {
-// //     data: clubRequests,
-// //     isLoading,
-// //     refetch,
-// //   } = useQuery({
-// //     queryKey: ["all-club-requests"],
-// //     queryFn: async () => {
-// //       const res = await axiosSecure.get("/club-requests");
-
-// //       return res.data;
-// //     },
-// //   });
-
-// //   if (isLoading) {
-// //     return <Loader></Loader>;
-// //   }
-
-// //   return (
-// //     <div>
-// //       <p>Club Requests {clubRequests.length}</p>
-
-// //       <div className="overflow-x-auto">
-// //         <table className="table">
-// //           {/* head */}
-// //           <thead>
-// //             <tr>
-// //               <th>Request No</th>
-// //               <th>Name</th>
-// //               <th>Club Type</th>
-// //               <th>Email</th>
-// //               <th>Status</th>
-// //               <th>Actions</th>
-// //             </tr>
-// //           </thead>
-// //           <tbody>
-// //             {clubRequests.map((request, index) => {
-// //               console.log(request);
-// //               return (
-// //                 <tr>
-// //                   <th>{index + 1}</th>
-// //                   <td>{request.clubName}</td>
-// //                   <td>{request.clubType}</td>
-// //                   <td>{request.email}</td>
-// //                   <td>{request.status}</td>
-// //                   <td className="">
-// //                     <button className="btn btn-sm mr-2 text-white btn-success">
-// //                       Approved
-// //                     </button>
-// //                     <button className="btn btn-sm text-white btn-error">
-// //                       Reject
-// //                     </button>
-// //                   </td>
-// //                 </tr>
-// //               );
-// //             })}
-// //             {/* row 1 */}
-// //           </tbody>
-// //         </table>
-// //       </div>
-// //     </div>
-// //   );
-// // };
-
-// // export default ClubRequest;
-// import React from "react";
-// import useAxiosSecure from "../Hooks/useAxiosSecure";
-// import { useQuery, useMutation } from "@tanstack/react-query";
-// import Loader from "../Components/Loader";
-// import Swal from "sweetalert2";
-// import { FaCheckCircle, FaTimesCircle, FaEye } from "react-icons/fa"; // কিছু আইকন যোগ করা হলো
-
-// const ClubRequest = () => {
-//   const axiosSecure = useAxiosSecure();
-
-//   // --- QUERY: ক্লাব রিকোয়েস্ট ফেচ করা ---
-//   const {
-//     data: clubRequests = [],
-//     isLoading,
-//     refetch, // ✅ ডেটা রিফ্রেশ করার জন্য refetch ফাংশনটি নেওয়া হলো
-//   } = useQuery({
-//     queryKey: ["all-club-requests"],
-//     queryFn: async () => {
-//       const res = await axiosSecure.get("/club-requests");
-//       return res.data;
-//     },
-//   });
-
-//   // --- MUTATION: অনুমোদন (Approve) লজিক ---
-//   const approveMutation = useMutation({
-//     mutationFn: (id) => {
-//       // ✅ Backend Route: PATCH /club-requests/approve/:id
-//       return axiosSecure.patch(`/club-requests/approve/${id}`);
-//     },
-//     onSuccess: () => {
-//       Swal.fire({
-//         title: "অনুমোদিত! 🎉",
-//         text: "ক্লাব অনুরোধটি অনুমোদিত হয়েছে এবং ক্লাবটি প্রকাশিত হয়েছে।",
-//         icon: "success",
-//       });
-//       refetch(); // ✅ সফল হওয়ার সাথে সাথেই ডেটা রিফ্রেশ করা হবে
-//     },
-//     onError: (error) => {
-//       Swal.fire({
-//         title: "ভুল!",
-//         text: error.response?.data?.message || "অনুমোদন ব্যর্থ হয়েছে।",
-//         icon: "error",
-//       });
-//     },
-//   });
-
-//   // --- MUTATION: বাতিল (Reject) লজিক ---
-//   const rejectMutation = useMutation({
-//     mutationFn: (id) => {
-//       // ✅ Backend Route: PATCH /club-requests/reject/:id (আপনার ব্যাকএন্ডে এই রুট তৈরি করতে হবে)
-//       return axiosSecure.patch(`/club-requests/reject/${id}`);
-//     },
-//     onSuccess: () => {
-//       Swal.fire({
-//         title: "বাতিল! 🗑️",
-//         text: "ক্লাব অনুরোধটি বাতিল করা হয়েছে।",
-//         icon: "info",
-//       });
-//       refetch(); // ✅ সফল হওয়ার সাথে সাথেই ডেটা রিফ্রেশ করা হবে
-//     },
-//     onError: (error) => {
-//       Swal.fire({
-//         title: "ভুল!",
-//         text: error.response?.data?.message || "বাতিলকরণ ব্যর্থ হয়েছে।",
-//         icon: "error",
-//       });
-//     },
-//   });
-
-//   // --- হ্যান্ডলার ফাংশন ---
-//   const handleApprove = (id) => {
-//     Swal.fire({
-//       title: "নিশ্চিত?",
-//       text: "আপনি কি এই ক্লাব অনুরোধটি অনুমোদন করতে চান?",
-//       icon: "warning",
-//       showCancelButton: true,
-//       confirmButtonColor: "#10B981",
-//       cancelButtonColor: "#d33",
-//       confirmButtonText: "হ্যাঁ, অনুমোদন করুন!",
-//     }).then((result) => {
-//       if (result.isConfirmed) {
-//         approveMutation.mutate(id);
-//       }
-//     });
-//   };
-
-//   const handleReject = (id) => {
-//     Swal.fire({
-//       title: "নিশ্চিত?",
-//       text: "আপনি কি এই ক্লাব অনুরোধটি বাতিল করতে চান?",
-//       icon: "warning",
-//       showCancelButton: true,
-//       confirmButtonColor: "#EF4444",
-//       cancelButtonColor: "#3085d6",
-//       confirmButtonText: "হ্যাঁ, বাতিল করুন!",
-//     }).then((result) => {
-//       if (result.isConfirmed) {
-//         rejectMutation.mutate(id);
-//       }
-//     });
-//   };
-
-//   // --- লোডিং এবং মিউটেশন পেন্ডিং স্টেট ---
-//   if (isLoading || approveMutation.isPending || rejectMutation.isPending) {
-//     return <Loader></Loader>;
-//   }
-
-//   // --- মেইন রেন্ডার ---
-//   return (
-//     <div className="p-6 bg-gray-50 min-h-screen">
-//       <h2 className="text-3xl font-extrabold text-primary mb-8 border-b pb-2">
-//         ক্লাব অনুরোধসমূহ ({clubRequests.length})
-//       </h2>
-
-//       {clubRequests.length === 0 ? (
-//         <p className="text-center p-12 text-xl text-gray-500 bg-white rounded-lg shadow-md">
-//           কোনো নতুন ক্লাব অনুরোধ পাওয়া যায়নি।
-//         </p>
-//       ) : (
-//         <div className="overflow-x-auto bg-white rounded-xl shadow-2xl border border-gray-200">
-//           <table className="table w-full table-zebra">
-//             {/* Table Head: উন্নত ডিজাইন */}
-//             <thead>
-//               <tr className="bg-primary text-white text-base font-semibold">
-//                 <th>#</th>
-//                 <th>ক্লাবের নাম</th>
-//                 <th>ক্লাবের প্রকার</th>
-//                 <th>ম্যানেজার ইমেইল</th>
-//                 <th>স্ট্যাটাস</th>
-//                 <th className="text-center">অ্যাকশন</th>
-//               </tr>
-//             </thead>
-
-//             {/* Table Body */}
-//             <tbody>
-//               {clubRequests.map((request, index) => {
-//                 // স্ট্যাটাস যদি 'pending' না হয়, তবে isProcessed হবে true
-//                 const isProcessed = request.status !== "pending";
-
-//                 // স্ট্যাটাস ব্যাজের জন্য কন্ডিশনাল স্টাইল
-//                 let statusBadgeClass = "badge-warning";
-//                 if (request.status === "approved") {
-//                   statusBadgeClass = "badge-success";
-//                 } else if (request.status === "rejected") {
-//                   statusBadgeClass = "badge-error";
-//                 }
-
-//                 return (
-//                   <tr
-//                     key={request._id}
-//                     className={
-//                       isProcessed
-//                         ? "hover:bg-gray-100"
-//                         : "hover:bg-yellow-50/50"
-//                     }
-//                   >
-//                     <th>{index + 1}</th>
-//                     <td className="font-medium text-lg">{request.clubName}</td>
-//                     <td>{request.clubType}</td>
-//                     <td>{request.email}</td>
-//                     <td>
-//                       {/* ✅ রিয়েল-টাইম স্ট্যাটাস পরিবর্তন */}
-//                       <span
-//                         className={`badge badge-lg font-bold text-white ${statusBadgeClass}`}
-//                       >
-//                         {request.status.toUpperCase()}
-//                       </span>
-//                     </td>
-//                     <td className="text-center">
-//                       <div className="flex justify-center space-x-2">
-//                         <button className="btn btn-sm btn-info text-white">
-//                           <FaEye /> বিস্তারিত
-//                         </button>
-
-//                         {/* ✅ Approve বাটন: স্ট্যাটাস অনুযায়ী ডিসেবল */}
-//                         <button
-//                           onClick={() => handleApprove(request._id)}
-//                           className="btn btn-sm text-white btn-success"
-//                           disabled={isProcessed}
-//                         >
-//                           <FaCheckCircle /> Approve
-//                         </button>
-
-//                         {/* ✅ Reject বাটন: স্ট্যাটাস অনুযায়ী ডিসেবল */}
-//                         <button
-//                           onClick={() => handleReject(request._id)}
-//                           className="btn btn-sm text-white btn-error"
-//                           disabled={isProcessed}
-//                         >
-//                           <FaTimesCircle /> Reject
-//                         </button>
-//                       </div>
-//                     </td>
-//                   </tr>
-//                 );
-//               })}
-//             </tbody>
-//           </table>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default ClubRequest;
 import React from "react";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { useQuery, useMutation } from "@tanstack/react-query";
@@ -298,13 +21,11 @@ const ClubRequest = () => {
   });
 
   const approveMutation = useMutation({
-    mutationFn: (id) => {
-      return axiosSecure.patch(`/club-requests/approve/${id}`);
-    },
+    mutationFn: (id) => axiosSecure.patch(`/club-requests/approve/${id}`),
     onSuccess: () => {
       Swal.fire({
         title: "Approved! 🎉",
-        text: "Club request approved and club published successfully.",
+        text: "Club request approved successfully.",
         icon: "success",
       });
       refetch();
@@ -312,22 +33,18 @@ const ClubRequest = () => {
     onError: (error) => {
       Swal.fire({
         title: "Error!",
-        text:
-          error.response?.data?.message ||
-          "Failed to approve the club request.",
+        text: error.response?.data?.message || "Failed to approve.",
         icon: "error",
       });
     },
   });
 
   const rejectMutation = useMutation({
-    mutationFn: (id) => {
-      return axiosSecure.patch(`/club-requests/reject/${id}`);
-    },
+    mutationFn: (id) => axiosSecure.patch(`/club-requests/reject/${id}`),
     onSuccess: () => {
       Swal.fire({
         title: "Rejected! 🗑️",
-        text: "Club request has been rejected.",
+        text: "Club request rejected.",
         icon: "info",
       });
       refetch();
@@ -335,8 +52,7 @@ const ClubRequest = () => {
     onError: (error) => {
       Swal.fire({
         title: "Error!",
-        text:
-          error.response?.data?.message || "Failed to reject the club request.",
+        text: error.response?.data?.message || "Failed to reject.",
         icon: "error",
       });
     },
@@ -345,33 +61,25 @@ const ClubRequest = () => {
   const handleApprove = (id) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "Do you want to approve and publish this club?",
+      text: "Approve and publish this club?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#10B981",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, Approve it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        approveMutation.mutate(id);
-      }
-    });
+      confirmButtonText: "Yes, approve!",
+    }).then((result) => result.isConfirmed && approveMutation.mutate(id));
   };
 
   const handleReject = (id) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "Do you want to reject this club request?",
+      text: "Reject this club request?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#EF4444",
       cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, Reject it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        rejectMutation.mutate(id);
-      }
-    });
+      confirmButtonText: "Yes, reject!",
+    }).then((result) => result.isConfirmed && rejectMutation.mutate(id));
   };
 
   if (isLoading || approveMutation.isPending || rejectMutation.isPending) {
@@ -379,86 +87,91 @@ const ClubRequest = () => {
   }
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
-      <h2 className="text-3xl font-extrabold text-primary mb-8 border-b pb-2">
-        Club Requests ({clubRequests.length})
-      </h2>
+    <div className="relative min-h-screen overflow-hidden my-8">
+      {/* Background Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#1a0033] to-[#2d0b59]"></div>
+      {/* Glow Effects */}
+      <div className="absolute top-20 left-10 w-80 h-80 bg-purple-600/20 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-20 right-10 w-80 h-80 bg-pink-600/20 rounded-full blur-3xl"></div>
 
-      {clubRequests.length === 0 ? (
-        <p className="text-center p-12 text-xl text-gray-500 bg-white rounded-lg shadow-md">
-          No pending club requests found.
-        </p>
-      ) : (
-        <div className="overflow-x-auto bg-white rounded-xl shadow-2xl border border-gray-200">
-          <table className="table w-full table-zebra">
-            <thead>
-              <tr className="bg-primary text-white text-base font-semibold">
-                <th>#</th>
-                <th>Club Name</th>
-                <th>Club Type</th>
-                <th>Manager Email</th>
-                <th>Status</th>
-                <th className="text-center">Actions</th>
-              </tr>
-            </thead>
+      <div className="relative w-11/12 max-w-7xl mx-auto py-12">
+        {/* Heading */}
+        <h2
+          className="text-4xl md:text-5xl font-extrabold text-center mb-10
+          bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-purple-400"
+        >
+          Club Requests ({clubRequests.length})
+        </h2>
 
-            <tbody>
-              {clubRequests.map((request, index) => {
-                const isProcessed = request.status !== "pending";
+        {clubRequests.length === 0 ? (
+          <div className="text-center p-12 bg-white/5 backdrop-blur-xl border border-purple-700/40 rounded-2xl shadow-2xl">
+            <p className="text-purple-200 text-xl">No pending club requests.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {clubRequests.map((request, index) => {
+              const isProcessed = request.status !== "pending";
+              let statusColor = "bg-yellow-400";
+              if (request.status === "approved") statusColor = "bg-green-500";
+              else if (request.status === "rejected")
+                statusColor = "bg-red-500";
 
-                let statusBadgeClass = "badge-warning";
-                if (request.status === "approved") {
-                  statusBadgeClass = "badge-success";
-                } else if (request.status === "rejected") {
-                  statusBadgeClass = "badge-error";
-                }
-
-                return (
-                  <tr
-                    key={request._id}
-                    className={
-                      isProcessed
-                        ? "hover:bg-gray-100"
-                        : "hover:bg-yellow-50/50"
-                    }
-                  >
-                    <th>{index + 1}</th>
-                    <td className="font-medium text-lg">{request.clubName}</td>
-                    <td>{request.clubType}</td>
-                    <td>{request.email}</td>
-                    <td>
+              return (
+                <div
+                  key={request._id}
+                  className="group bg-white/5 backdrop-blur-xl border border-purple-700/40 rounded-2xl overflow-hidden
+                    hover:scale-[1.02] hover:shadow-2xl transition-all duration-300"
+                >
+                  {/* Club Info */}
+                  <div className="p-5 space-y-3 text-purple-200">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-xl font-bold text-white">
+                        {request.clubName}
+                      </h3>
                       <span
-                        className={`badge badge-lg font-bold text-white ${statusBadgeClass}`}
+                        className={`px-3 py-1 rounded-full text-white text-xs font-semibold ${statusColor}`}
                       >
                         {request.status.toUpperCase()}
                       </span>
-                    </td>
-                    <td className="text-center">
-                      <div className="flex justify-center space-x-2">
-                        <button
-                          onClick={() => handleApprove(request._id)}
-                          className="btn btn-sm text-white btn-success"
-                          disabled={isProcessed}
-                        >
-                          <FaCheckCircle /> Approve
-                        </button>
+                    </div>
 
-                        <button
-                          onClick={() => handleReject(request._id)}
-                          className="btn btn-sm text-white btn-error"
-                          disabled={isProcessed}
-                        >
-                          <FaTimesCircle /> Reject
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      )}
+                    <span
+                      className="inline-block px-3 py-1 text-xs font-semibold
+                      rounded-full bg-purple-500/20 text-purple-300"
+                    >
+                      {request.clubType?.toUpperCase()}
+                    </span>
+
+                    <p className="text-sm text-purple-300 truncate">
+                      {request.email}
+                    </p>
+
+                    <div className="flex justify-between mt-4 gap-2">
+                      <button
+                        onClick={() => handleApprove(request._id)}
+                        disabled={isProcessed}
+                        className="flex-1 flex items-center justify-center gap-2 py-2 rounded-full font-semibold
+                          bg-green-500 text-white hover:scale-105 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <FaCheckCircle /> Approve
+                      </button>
+
+                      <button
+                        onClick={() => handleReject(request._id)}
+                        disabled={isProcessed}
+                        className="flex-1 flex items-center justify-center gap-2 py-2 rounded-full font-semibold
+                          bg-red-500 text-white hover:scale-105 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <FaTimesCircle /> Reject
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

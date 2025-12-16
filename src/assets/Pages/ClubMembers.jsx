@@ -1,14 +1,3 @@
-// import React from "react";
-
-// const ClubMembers = () => {
-//   return (
-//     <div>
-//       <p>THis is a Club Members page</p>
-//     </div>
-//   );
-// };
-
-// export default ClubMembers;
 import React, { useContext } from "react";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
@@ -30,26 +19,26 @@ const ClubMembers = () => {
 
   if (isLoading) {
     return (
-      <div className="mt-10 text-center">
+      <div className="mt-20 text-center">
         <Loader />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen p-6 bg-gradient-to-br from-indigo-50 via-white to-purple-50">
-      <div className="max-w-6xl mx-auto bg-white p-8 rounded-3xl shadow-2xl border">
-        <h1 className="text-3xl font-extrabold mb-6 text-indigo-700">
-          👥 Club Members
+    <div className="min-h-screen text-black p-6 bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+      <div className="max-w-6xl mx-auto p-8 bg-white/50 backdrop-blur-md rounded-3xl shadow-2xl border border-white/20 transition-transform duration-500 hover:shadow-3xl">
+        <h1 className="text-3xl font-extrabold mb-6 text-indigo-700 flex items-center gap-3">
+          <span>👥</span> Club Members
         </h1>
 
         {members.length === 0 ? (
-          <p className="text-center text-gray-500">
+          <div className="text-center py-10 text-gray-500 font-semibold">
             No members have joined your club yet.
-          </p>
+          </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full border rounded-xl overflow-hidden">
+            <table className="w-full border rounded-xl overflow-hidden bg-white/70 backdrop-blur-sm shadow-inner">
               <thead className="bg-indigo-600 text-white">
                 <tr>
                   <th className="p-3 text-left">Member Email</th>
@@ -61,7 +50,10 @@ const ClubMembers = () => {
               </thead>
               <tbody>
                 {members.map((member) => (
-                  <tr key={member._id} className="border-b hover:bg-gray-50">
+                  <tr
+                    key={member._id}
+                    className="border-b hover:bg-gray-50/50 transition-colors"
+                  >
                     <td className="p-3">{member.customerEmail}</td>
                     <td className="p-3">{member.clubName}</td>
                     <td className="p-3 text-sm break-all">
