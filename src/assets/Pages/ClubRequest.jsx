@@ -79,7 +79,11 @@ const ClubRequest = () => {
       confirmButtonColor: "#EF4444",
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes, reject!",
-    }).then((result) => result.isConfirmed && rejectMutation.mutate(id));
+    }).then((result) => {
+      if (result.isConfirmed) {
+        rejectMutation.mutate(id);
+      }
+    });
   };
 
   if (isLoading || approveMutation.isPending || rejectMutation.isPending) {

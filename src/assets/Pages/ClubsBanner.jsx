@@ -133,6 +133,14 @@ const ClubsBanner = () => {
             </p>
           )}
         </div>
+        <Link
+          to="/clubs"
+          className="mt-10 text-center text-xl mx-auto block px-8 py-3 text-white font-semibold rounded-full
+             bg-gradient-to-r from-pink-500 to-purple-600
+             hover:scale-105 hover:shadow-xl transition-transform duration-300"
+        >
+          Our All Clubs
+        </Link>
       </div>
     </div>
   );

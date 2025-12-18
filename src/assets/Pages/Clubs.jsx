@@ -23,7 +23,7 @@ const Clubs = () => {
   );
 
   return (
-    <div className="relative min-h-screen overflow-hidden my-8">
+    <div className="relative  min-h-screen overflow-hidden my-8">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#1a0033] to-[#2d0b59]"></div>
 

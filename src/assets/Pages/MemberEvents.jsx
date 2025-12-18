@@ -61,7 +61,7 @@ const MemberEvents = () => {
                 </span>
               </p>
               <p className="text-sm text-gray-500">
-                <strong>Registered At:</strong>{" "}
+                <strong>Registeredddd At:</strong>{" "}
                 {new Date(item.registeredAt).toLocaleString()}
               </p>
             </div>

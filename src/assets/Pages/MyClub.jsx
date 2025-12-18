@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Contexts/AuthContext";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const MyClub = () => {
   const { user } = useContext(AuthContext);
@@ -17,6 +18,70 @@ const MyClub = () => {
       setLoading(false);
     });
   }, [axiosSecure, user]);
+
+  const handleUpdate = async (id) => {
+    const club = clubs.find((c) => c._id === id);
+    if (!club) return;
+
+    const { value: formValues } = await Swal.fire({
+      title: "Update Club Details",
+      html:
+        `<input id="swal-clubName" class="swal2-input" placeholder="Name" value="${club.clubName}">` +
+        `<input id="swal-clubType" class="swal2-input" placeholder="Type" value="${club.clubType}">` +
+        `<input id="swal-location" class="swal2-input" placeholder="Location" value="${club.location}">` +
+        `<input id="swal-monthlyCharge" type="number" class="swal2-input" placeholder="Monthly Charge" value="${club.monthlyCharge}">` +
+        `<input id="swal-description" class="swal2-input" placeholder="Description" value="${club.description}">` +
+        `<input id="swal-logoUrl" class="swal2-input" placeholder="Logo URL" value="${club.logoUrl}">`,
+      focusConfirm: false,
+      showCancelButton: true,
+      preConfirm: () => {
+        return {
+          clubName: document.getElementById("swal-clubName").value,
+          clubType: document.getElementById("swal-clubType").value,
+          location: document.getElementById("swal-location").value,
+          monthlyCharge: parseFloat(
+            document.getElementById("swal-monthlyCharge").value
+          ),
+          description: document.getElementById("swal-description").value,
+          logoUrl: document.getElementById("swal-logoUrl").value,
+        };
+      },
+    });
+
+    if (formValues) {
+      try {
+        const res = await axiosSecure.patch(`/clubs/${id}`, formValues);
+        Swal.fire("Updated!", res.data.message, "success");
+        setClubs((prev) =>
+          prev.map((c) => (c._id === id ? { ...c, ...formValues } : c))
+        );
+      } catch (err) {
+        Swal.fire("Error!", "Failed to update club", "error");
+      }
+    }
+  };
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#EF4444",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await axiosSecure.delete(`/clubs/${id}`);
+          Swal.fire("Deleted!", res.data.message, "success");
+          setClubs((prev) => prev.filter((c) => c._id !== id));
+        } catch (err) {
+          Swal.fire("Error!", "Failed to delete club", "error");
+        }
+      }
+    });
+  };
 
   if (loading) {
     return (
@@ -105,6 +170,22 @@ const MyClub = () => {
             <span className="text-xs text-gray-400">
               Approved: {new Date(club.approvedAt).toLocaleDateString()}
             </span>
+          </div>
+
+          {/* Update & Delete Buttons */}
+          <div className="flex gap-2 mt-4">
+            <button
+              onClick={() => handleUpdate(club._id)}
+              className="flex-1 bg-blue-500 text-white py-2 rounded-full hover:bg-blue-600"
+            >
+              Update
+            </button>
+            <button
+              onClick={() => handleDelete(club._id)}
+              className="flex-1 bg-red-500 text-white py-2 rounded-full hover:bg-red-600"
+            >
+              Delete
+            </button>
           </div>
         </div>
       ))}

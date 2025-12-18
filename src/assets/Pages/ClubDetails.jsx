@@ -71,6 +71,7 @@ const ClubDetails = () => {
           <p className="mt-3 text-purple-300">
             Build community • Create impact • Grow together
           </p>
+          <p>{club._id}</p>
 
           <div className="mt-4 flex justify-center gap-3">
             <span className="px-4 py-1 rounded-full bg-purple-500/20 text-purple-300 text-sm font-semibold">
