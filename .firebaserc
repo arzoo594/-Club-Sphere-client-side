@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "club-sphere-auth",
+    "prod": "club-sphere-auth"
+  },
+  "targets": {},
+  "etags": {}
+}

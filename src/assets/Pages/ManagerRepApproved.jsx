@@ -65,6 +65,28 @@ const ManagerRepApproved = () => {
       });
     }
   };
+  const handleMakeAdmin = async (id) => {
+    try {
+      const res = await axiosSecure.patch(
+        `/club-manager-request/make-admin/${id}`
+      );
+      if (res.data.message) {
+        Swal.fire({
+          icon: "success",
+          title: "Promoted! 👑",
+          text: res.data.message,
+        });
+        refetch();
+      }
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        icon: "error",
+        title: "Error!",
+        text: "Something went wrong. Please try again.",
+      });
+    }
+  };
 
   return (
     <div className="relative min-h-screen overflow-hidden my-8">
@@ -155,6 +177,14 @@ const ManagerRepApproved = () => {
                       </button>
                     </div>
                   </div>
+                  <button
+                    onClick={() => handleMakeAdmin(req._id)}
+                    disabled={req.status !== "approved"}
+                    className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-full font-semibold
+      bg-blue-500 text-white w-full hover:scale-105 transition disabled:opacity-50 disabled:cursor-not-allowed`}
+                  >
+                    🛡 Make Admin
+                  </button>
                 </div>
               );
             })}
