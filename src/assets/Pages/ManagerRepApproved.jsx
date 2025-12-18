@@ -65,25 +65,31 @@ const ManagerRepApproved = () => {
       });
     }
   };
+
   const handleMakeAdmin = async (id) => {
     try {
       const res = await axiosSecure.patch(
         `/club-manager-request/make-admin/${id}`
       );
-      if (res.data.message) {
-        Swal.fire({
-          icon: "success",
-          title: "Promoted! 👑",
-          text: res.data.message,
-        });
-        refetch();
-      }
+
+      Swal.fire({
+        icon: "success",
+        title: "Success 🎉",
+        text: res.data.message,
+      });
+
+      refetch();
     } catch (err) {
       console.error(err);
+
+      const errorMessage =
+        err.response?.data?.message ||
+        "Something went wrong. Please try again.";
+
       Swal.fire({
         icon: "error",
-        title: "Error!",
-        text: "Something went wrong. Please try again.",
+        title: "Oops ❌",
+        text: errorMessage,
       });
     }
   };
