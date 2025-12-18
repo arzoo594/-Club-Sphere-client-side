@@ -4,6 +4,7 @@ import ClubsBanner from "./ClubsBanner";
 import HomeEvent from "./HomeEvent";
 import LifeImpactSection from "../Components/LifeImpactSection";
 import EventSlider from "../Components/EventSlider";
+import Error from "../Components/Error";
 
 const Home = () => {
   return (

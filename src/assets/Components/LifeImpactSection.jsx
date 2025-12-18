@@ -36,7 +36,7 @@ const benefits = [
 
 const LifeImpactSection = () => {
   return (
-    <section className="py-20 bg-gray-900 text-white">
+    <section className="py-20 rounded-2xl mb-8 bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-6">
         <h2 className="text-4xl font-bold text-center mb-12">
           How ClubSphere Can Impact Your Life

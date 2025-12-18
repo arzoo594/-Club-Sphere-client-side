@@ -25,10 +25,12 @@ import MyClubsMember from "../Pages/MyClubsMember";
 import CreateEvent from "../Pages/CreateEvent";
 import HomeDashboard from "../Dashboard/HomeDashboard";
 import AllClubTotalPayments from "../Pages/AllClubTotalPayments";
+import Error from "../Components/Error";
 
 export const router = createBrowserRouter([
   {
     path: "/",
+    errorElement: <Error></Error>,
     Component: RootLayOut,
     children: [
       {
