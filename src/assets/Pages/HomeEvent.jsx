@@ -58,7 +58,7 @@ const HomeEvent = () => {
         {filteredEvents.length === 0 ? (
           <p className="text-center text-purple-300">No events found.</p>
         ) : (
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {filteredEvents.map((event) => (
               <div
                 key={event._id}
@@ -102,24 +102,25 @@ const HomeEvent = () => {
                     <p>👥 Max Attendees: {event.maxAttendees}</p>
                   </div>
 
-                  <p className="text-sm text-purple-300 mb-5 line-clamp-3">
-                    {event.description}
-                  </p>
-
                   {/* Button */}
                 </div>
               </div>
             ))}
           </div>
         )}
-        <Link
-          to="/events"
-          className="mt-10 text-center text-xl mx-auto block px-8 py-3 text-white font-semibold rounded-full
-                     bg-gradient-to-r from-pink-500 to-purple-600
-                     hover:scale-105 hover:shadow-xl transition-transform duration-300"
-        >
-          Upcoming Event
-        </Link>
+        <div className="mt-12 flex justify-center">
+          <Link
+            to="/events"
+            className="inline-flex items-center justify-center
+               px-10 py-4 text-lg font-semibold
+               text-white rounded-full
+               bg-gradient-to-r from-pink-500 to-purple-600
+               hover:scale-105 hover:shadow-xl
+               transition-transform duration-300"
+          >
+            View All Upcoming Events
+          </Link>
+        </div>
       </div>
     </div>
   );

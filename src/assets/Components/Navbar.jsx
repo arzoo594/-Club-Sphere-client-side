@@ -3,6 +3,7 @@ import logo from "../Images/Club Sphere.png";
 import { Link, NavLink } from "react-router";
 import { AuthContext } from "../Contexts/AuthContext";
 import Swal from "sweetalert2";
+import { CiLight } from "react-icons/ci";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -90,6 +91,22 @@ const Navbar = () => {
                   Events
                 </NavLink>
               </li>
+              <li>
+                <NavLink
+                  to="/contact"
+                  className="text-purple-200 hover:text-white"
+                >
+                  Contact
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/about"
+                  className="text-purple-200 hover:text-white"
+                >
+                  About
+                </NavLink>
+              </li>
               {user && (
                 <li>
                   <NavLink to="/be-a-manager">Be a Club Manager</NavLink>
@@ -133,6 +150,16 @@ const Navbar = () => {
                 Events
               </NavLink>
             </li>
+            <li>
+              <NavLink to="/contact" className={navLinkStyle}>
+                Contact
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/about" className={navLinkStyle}>
+                About
+              </NavLink>
+            </li>
             {user && (
               <li>
                 <NavLink to="/be-a-manager" className={navLinkStyle}>
@@ -151,7 +178,8 @@ const Navbar = () => {
         </div>
 
         {/* Right */}
-        <div className="navbar-end relative">
+        <div className="navbar-end space-x-2 relative">
+          <CiLight className="w-8 cursor-pointer h-8" />
           {user ? (
             <div className="relative">
               <img

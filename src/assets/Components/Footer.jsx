@@ -1,6 +1,7 @@
 import React from "react";
 import { FaFacebook, FaGithub, FaLinkedin } from "react-icons/fa";
 import logo from "../Images/Club Sphere.png";
+import { Link } from "react-router";
 
 const Footer = () => {
   return (
@@ -68,15 +69,24 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold text-white mb-3">Connect with us</h3>
             <div className="flex gap-4 mt-2">
-              <a className="p-3 rounded-full bg-white/5 hover:bg-white/10 hover:scale-110 transition">
+              <Link
+                to="https://github.com/arzoo594"
+                className="p-3 rounded-full bg-white/5 hover:bg-white/10 hover:scale-110 transition"
+              >
                 <FaGithub className="w-5 h-5" />
-              </a>
-              <a className="p-3 rounded-full bg-white/5 hover:bg-white/10 hover:scale-110 transition">
+              </Link>
+              <Link
+                to="https://www.linkedin.com/in/arzoo-ahmed2003/"
+                className="p-3 rounded-full bg-white/5 hover:bg-white/10 hover:scale-110 transition"
+              >
                 <FaLinkedin className="w-5 h-5" />
-              </a>
-              <a className="p-3 rounded-full bg-white/5 hover:bg-white/10 hover:scale-110 transition">
+              </Link>
+              <Link
+                to="https://www.facebook.com/arzoo.ahmed.7165/"
+                className="p-3 rounded-full bg-white/5 hover:bg-white/10 hover:scale-110 transition"
+              >
                 <FaFacebook className="w-5 h-5" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>

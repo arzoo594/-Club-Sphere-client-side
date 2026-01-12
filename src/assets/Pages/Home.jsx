@@ -5,6 +5,9 @@ import HomeEvent from "./HomeEvent";
 import LifeImpactSection from "../Components/LifeImpactSection";
 import EventSlider from "../Components/EventSlider";
 import Error from "../Components/Error";
+import FAQSection from "../Components/FAQSection";
+import TestimonialSection from "../Components/TestimonialSection";
+import NewsletterSection from "../Components/NewsletterSection";
 
 const Home = () => {
   return (
@@ -14,6 +17,9 @@ const Home = () => {
       <ClubsBanner></ClubsBanner>
       <HomeEvent></HomeEvent>
       <LifeImpactSection></LifeImpactSection>
+      <FAQSection></FAQSection>
+      <TestimonialSection></TestimonialSection>
+      <NewsletterSection></NewsletterSection>
     </div>
   );
 };

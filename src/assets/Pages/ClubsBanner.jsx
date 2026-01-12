@@ -57,7 +57,7 @@ const ClubsBanner = () => {
         </div>
 
         {/* Clubs Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {filteredClubs.length > 0 ? (
             filteredClubs.map((club) => (
               <div
@@ -96,9 +96,9 @@ const ClubsBanner = () => {
                     {club.clubType?.toUpperCase()}
                   </span>
 
-                  <p className="text-sm text-purple-300">
+                  {/* <p className="text-sm text-purple-300">
                     {club.description.slice(0, 90)}...
-                  </p>
+                  </p> */}
 
                   <div className="text-sm space-y-1">
                     <p>
@@ -133,14 +133,19 @@ const ClubsBanner = () => {
             </p>
           )}
         </div>
-        <Link
-          to="/clubs"
-          className="mt-10 text-center text-xl mx-auto block px-8 py-3 text-white font-semibold rounded-full
-             bg-gradient-to-r from-pink-500 to-purple-600
-             hover:scale-105 hover:shadow-xl transition-transform duration-300"
-        >
-          Our All Clubs
-        </Link>
+        <div className="mt-10 flex justify-center">
+          <Link
+            to="/clubs"
+            className="inline-flex items-center justify-center
+               px-10 py-4 text-lg font-semibold
+               text-white rounded-full
+               bg-gradient-to-r from-pink-500 to-purple-600
+               hover:scale-105 hover:shadow-xl
+               transition-transform duration-300"
+          >
+            Our All Clubs
+          </Link>
+        </div>
       </div>
     </div>
   );

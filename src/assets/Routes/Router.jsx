@@ -26,6 +26,8 @@ import CreateEvent from "../Pages/CreateEvent";
 import HomeDashboard from "../Dashboard/HomeDashboard";
 import AllClubTotalPayments from "../Pages/AllClubTotalPayments";
 import Error from "../Components/Error";
+import ContactPage from "../Components/Contact";
+import AboutSection from "../Components/AboutSection";
 
 export const router = createBrowserRouter([
   {
@@ -47,6 +49,14 @@ export const router = createBrowserRouter([
         element: <Events></Events>,
       },
       {
+        path: "/contact",
+        element: <ContactPage></ContactPage>,
+      },
+      {
+        path: "/about",
+        element: <AboutSection></AboutSection>,
+      },
+      {
         path: "/be-a-manager",
         element: (
           <PrivateRoute>
@@ -57,11 +67,7 @@ export const router = createBrowserRouter([
 
       {
         path: "/club-details/:id",
-        element: (
-          <PrivateRoute>
-            <ClubDetails></ClubDetails>
-          </PrivateRoute>
-        ),
+        element: <ClubDetails></ClubDetails>,
       },
       {
         path: "/payment-success",

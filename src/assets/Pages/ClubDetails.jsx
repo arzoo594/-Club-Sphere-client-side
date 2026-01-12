@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { useParams } from "react-router";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
@@ -10,10 +10,8 @@ const ClubDetails = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useContext(AuthContext);
 
-  const [joined, setJoined] = useState(false);
-  const [checkingJoin, setCheckingJoin] = useState(true);
-
-  const { data: club, isLoading } = useQuery({
+  // 1. Fetch Club Details
+  const { data: club, isLoading: isClubLoading } = useQuery({
     queryKey: ["single-club", id],
     queryFn: async () => {
       const res = await axiosSecure.get(`/clubs/${id}`);
@@ -21,17 +19,18 @@ const ClubDetails = () => {
     },
   });
 
-  useEffect(() => {
-    if (user?.email && id) {
-      axiosSecure
-        .get(`/payments/status?email=${user.email}&clubId=${id}`)
-        .then((res) => {
-          setJoined(res.data.joined);
-          setCheckingJoin(false);
-        })
-        .catch(() => setCheckingJoin(false));
-    }
-  }, [user, id, axiosSecure]);
+  const { data: joinData, isLoading: isJoinLoading } = useQuery({
+    queryKey: ["payment-status", user?.email, id],
+    enabled: !!user?.email && !!id,
+    queryFn: async () => {
+      const res = await axiosSecure.get(
+        `/payments/status?email=${user.email}&clubId=${id}`
+      );
+      return res.data;
+    },
+  });
+
+  const isJoined = joinData?.joined || false;
 
   const handlePayment = async (clubId) => {
     const paymentInfo = {
@@ -42,11 +41,18 @@ const ClubDetails = () => {
       managerEmail: club.email,
     };
 
-    const res = await axiosSecure.post("/create-checkout-session", paymentInfo);
-    window.location.href = res.data.url;
+    try {
+      const res = await axiosSecure.post(
+        "/create-checkout-session",
+        paymentInfo
+      );
+      window.location.href = res.data.url;
+    } catch (error) {
+      console.error("Payment Error:", error);
+    }
   };
 
-  if (isLoading || checkingJoin) return <Loader />;
+  if (isClubLoading || isJoinLoading) return <Loader />;
 
   if (!club)
     return (
@@ -57,13 +63,13 @@ const ClubDetails = () => {
 
   return (
     <div className="relative min-h-screen overflow-hidden my-8">
-      {/* Background */}
+      {/* Background decoration */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#1a0033] to-[#2d0b59]" />
       <div className="absolute top-24 left-10 w-96 h-96 bg-purple-600/20 blur-3xl rounded-full" />
       <div className="absolute bottom-24 right-10 w-96 h-96 bg-pink-600/20 blur-3xl rounded-full" />
 
       <div className="relative w-11/12 max-w-5xl mx-auto py-14">
-        {/* Hero */}
+        {/* Header Section */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-purple-400">
             {club.clubName}
@@ -71,23 +77,21 @@ const ClubDetails = () => {
           <p className="mt-3 text-purple-300">
             Build community • Create impact • Grow together
           </p>
-          <p>{club._id}</p>
 
           <div className="mt-4 flex justify-center gap-3">
-            <span className="px-4 py-1 rounded-full bg-purple-500/20 text-purple-300 text-sm font-semibold">
-              {club.clubType.toUpperCase()}
+            <span className="px-4 py-1 rounded-full bg-purple-500/20 text-purple-300 text-sm font-semibold uppercase">
+              {club.clubType}
             </span>
-            {joined && (
-              <span className="px-4 py-1 rounded-full bg-green-500/20 text-green-300 text-sm font-semibold">
-                Already Joined
+            {isJoined && (
+              <span className="px-4 py-1 rounded-full bg-green-500/20 text-green-400 text-sm font-bold border border-green-500/30">
+                ✓ Already Joined
               </span>
             )}
           </div>
         </div>
 
-        {/* Card */}
+        {/* Details Card */}
         <div className="bg-white/5 backdrop-blur-xl border border-purple-700/40 rounded-3xl shadow-2xl p-10">
-          {/* Logo */}
           <div className="flex justify-center -mt-24 mb-8">
             <img
               src={club.logoUrl}
@@ -106,7 +110,7 @@ const ClubDetails = () => {
               ],
               ["👤 Founder", club.name],
               ["📧 Contact", club.email],
-              ["👥 Members", club.totalMembers],
+              ["👥 Members", club.totalMembers || 0],
               ["💳 Monthly Charge", `$${club.monthlyCharge}`],
               ["📌 Status", club.isPublished ? "Published" : "Pending"],
               ["⏳ Approved At", new Date(club.approvedAt).toLocaleString()],
@@ -121,28 +125,21 @@ const ClubDetails = () => {
             ))}
           </div>
 
-          {/* About */}
-          <div className="mt-10 p-6 rounded-2xl bg-white/5 border border-purple-700/30">
-            <h3 className="text-xl font-bold text-white mb-3">
-              📘 About This Club
-            </h3>
-            <p className="text-purple-300 leading-relaxed">
-              {club.description}
-            </p>
-          </div>
-
           {/* Join Section */}
           <div className="mt-12 text-center">
             <div className="max-w-md mx-auto bg-white/10 backdrop-blur-xl p-8 rounded-2xl border border-purple-700/40 shadow-xl">
-              {joined ? (
-                <>
-                  <h3 className="text-2xl font-bold text-green-400 mb-2">
-                    ✅ Membership Active
+              {isJoined ? (
+                <div className="space-y-3">
+                  <h3 className="text-2xl font-bold text-green-400">
+                    Membership Active
                   </h3>
                   <p className="text-purple-300">
-                    You are already part of this club.
+                    Welcome back! You have full access to this club.
                   </p>
-                </>
+                  <div className="py-2 px-4 bg-green-500/10 text-green-300 rounded-lg border border-green-500/20 inline-block">
+                    Payment Verified
+                  </div>
+                </div>
               ) : (
                 <>
                   <h3 className="text-2xl font-bold text-white mb-3">
@@ -157,22 +154,20 @@ const ClubDetails = () => {
 
                   <button
                     onClick={() => handlePayment(club._id)}
-                    className="w-full py-3 rounded-full font-semibold text-white
+                    className="w-full py-3 rounded-full font-bold text-white
                     bg-gradient-to-r from-pink-500 to-purple-600
-                    hover:scale-105 hover:shadow-2xl transition"
+                    hover:scale-105 hover:shadow-[0_0_20px_rgba(236,72,153,0.5)] transition duration-300"
                   >
-                    Join Club
+                    Join Club Now
                   </button>
                 </>
               )}
             </div>
           </div>
 
-          {/* Footer Note */}
           <p className="mt-12 text-center text-sm text-purple-400">
             Powered by{" "}
-            <span className="font-semibold text-white">ClubSphere</span> — Built
-            with ❤️ by <strong>Arzoo Ahmed</strong>
+            <span className="font-semibold text-white">ClubSphere</span>
           </p>
         </div>
       </div>

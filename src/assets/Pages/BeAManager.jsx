@@ -67,8 +67,7 @@ const BeAManager = () => {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden my-12 px-4 md:px-6">
-      {/* Background shapes */}
+    <div className="relative rounded-2xl min-h-screen overflow-hidden my-8 px-4 md:px-6">
       <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#1a0033] to-[#2d0b59]" />
       <div className="absolute top-24 left-10 w-96 h-96 bg-purple-600/20 blur-3xl rounded-full" />
       <div className="absolute bottom-24 right-10 w-96 h-96 bg-pink-600/20 blur-3xl rounded-full" />
